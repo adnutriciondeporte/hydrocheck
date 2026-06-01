@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>HydroCheck</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0e1a;--surface:#111827;--surface2:#1a2235;--border:#1e2d45;--accent:#00d4ff;--accent2:#7c3aed;--accent3:#10b981;--warn:#f59e0b;--danger:#ef4444;--text:#e2e8f0;--muted:#64748b;--shadow:0 4px 24px rgba(0,0,0,.4)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:440px;margin:0 auto;padding:0 0 60px}
+
+.hdr{padding:20px 20px 14px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(0,212,255,.08),transparent)}
+.logo{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);display:flex;align-items:center;gap:8px}
+.logo span{color:var(--text)}
+.tag{font-size:.68rem;color:var(--muted);font-family:'DM Mono',monospace;margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
+.auth{font-size:.63rem;color:var(--accent2);font-family:'DM Mono',monospace;margin-top:2px}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:440px;background:var(--surface);border-top:1px solid var(--border);display:flex;z-index:20;padding:6px 0}
+.bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;color:var(--muted);font-size:.55rem;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;transition:color .2s}
+.bnav-btn .ico{font-size:1.3rem}
+.bnav-btn.on{color:var(--accent)}
+
+/* SCREENS */
+.screen{display:none;padding:18px;animation:fi .3s ease}
+.screen.on{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* STEPS */
+.steps-wrap{padding:14px 18px 0}
+.steps{display:flex;gap:5px;align-items:center}
+.step{flex:1;height:3px;border-radius:3px;background:var(--border);transition:background .3s}
+.step.done{background:var(--accent3)}.step.active{background:var(--accent)}
+.step-lbl{text-align:center;font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted);padding:5px 0;text-transform:uppercase;letter-spacing:.05em}
+
+/* SUB-SCREENS */
+.sub{display:none}.sub.on{display:block}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:12px;box-shadow:var(--shadow)}
+.card-ico{font-size:1.8rem;text-align:center;margin-bottom:6px}
+.card-title{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:var(--text);text-align:center;margin-bottom:3px}
+.card-desc{font-size:.72rem;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.5}
+.ct{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ct::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+
+/* FORM */
+.fi{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.fi label{font-size:.62rem;font-family:'DM Mono',monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.fi input,.fi select{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:11px 13px;color:var(--text);font-size:.9rem;font-family:'DM Sans',sans-serif;width:100%;transition:border .2s}
+.fi input:focus,.fi select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,255,.1)}
+.fi select option{background:var(--surface)}
+.fi-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.hint{font-size:.62rem;color:var(--muted);font-family:'DM Mono',monospace;margin-top:3px}
+.big-input-wrap{position:relative;margin-bottom:10px}
+.big-input{background:var(--surface2);border:2px solid var(--border);border-radius:14px;padding:14px 50px 14px 16px;color:var(--accent);font-size:1.8rem;font-family:'Syne',sans-serif;font-weight:800;width:100%;text-align:center;transition:border .2s}
+.big-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,255,.1)}
+.big-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:.68rem;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase}
+
+/* BUTTONS */
+.btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),#0099cc);border:none;border-radius:14px;color:#0a0e1a;font-family:'Syne',sans-serif;font-size:.9rem;font-weight:800;letter-spacing:.05em;cursor:pointer;margin-top:4px;text-transform:uppercase;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,212,255,.35)}
+.btn.secondary{background:transparent;border:1px solid var(--border);color:var(--muted);box-shadow:none}
+.btn.secondary:hover{border-color:var(--muted);color:var(--text);transform:none}
+.btn.danger-btn{background:linear-gradient(135deg,var(--danger),#cc0000);color:white}
+
+/* BORG */
+.borg-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:8px 0}
+.borg-btn{padding:9px 3px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);color:var(--muted);font-size:.62rem;font-family:'DM Mono',monospace;cursor:pointer;text-align:center;transition:all .2s;line-height:1.3}
+.borg-btn b{display:block;font-size:.95rem;font-family:'Syne',sans-serif;color:var(--text)}
+.borg-btn.on.g{background:rgba(16,185,129,.15);border-color:var(--accent3);color:var(--accent3)}
+.borg-btn.on.g b{color:var(--accent3)}
+.borg-btn.on.w{background:rgba(245,158,11,.15);border-color:var(--warn);color:var(--warn)}
+.borg-btn.on.w b{color:var(--warn)}
+.borg-btn.on.d{background:rgba(239,68,68,.15);border-color:var(--danger);color:var(--danger)}
+.borg-btn.on.d b{color:var(--danger)}
+
+/* ORINA */
+.urine-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:8px 0}
+.urine-btn{border-radius:10px;height:50px;cursor:pointer;border:3px solid transparent;transition:all .15s;position:relative}
+.urine-btn:hover{transform:scale(1.05)}
+.urine-btn.on{border-color:white;transform:scale(1.1)}
+.urine-num{position:absolute;bottom:3px;right:5px;font-size:.58rem;font-family:'DM Mono',monospace;font-weight:700;color:rgba(0,0,0,.4)}
+.urine-num.dk{color:rgba(255,255,255,.6)}
+
+/* ALERTS */
+.al{border-radius:12px;padding:12px 14px;margin-bottom:10px;font-size:.77rem;line-height:1.6;border:1px solid}
+.al.g{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.25);color:#6ee7b7}
+.al.w{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.25);color:#fcd34d}
+.al.d{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.25);color:#fca5a5}
+.al.i{background:rgba(0,212,255,.07);border-color:rgba(0,212,255,.2);color:#7dd3fc}
+.al strong{display:block;font-family:'Syne',sans-serif;font-weight:700;margin-bottom:3px}
+
+/* METRICS */
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+.m{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center}
+.m::before{display:none}
+.m-top{height:3px;border-radius:3px;margin-bottom:10px}
+.m-top.accent{background:var(--accent)}.m-top.w{background:var(--warn)}.m-top.d{background:var(--danger)}.m-top.g{background:var(--accent3)}
+.m-val{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--accent);line-height:1}
+.m-val.w{color:var(--warn)}.m-val.d{color:var(--danger)}.m-val.g{color:var(--accent3)}
+.m-lbl{font-size:.58rem;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em}
+.m-sub{font-size:.63rem;color:var(--muted);margin-top:3px}
+
+/* PLAN BOX */
+.plan-box{background:linear-gradient(135deg,rgba(0,212,255,.09),rgba(124,58,237,.09));border:1px solid rgba(0,212,255,.25);border-radius:16px;padding:16px;margin-bottom:12px}
+.plan-title{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:800;color:var(--accent);margin-bottom:12px;text-align:center}
+.plan-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(0,212,255,.08)}
+.plan-item:last-child{border-bottom:none}
+.plan-em{font-size:1.3rem;flex-shrink:0}
+.plan-k{font-size:.6rem;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase}
+.plan-v{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--accent)}
+.plan-v.w{color:var(--warn)}.plan-v.d{color:var(--danger)}.plan-v.g{color:var(--accent3)}
+.plan-s{font-size:.62rem;color:var(--muted);margin-top:1px}
+
+/* HISTORIAL */
+.hist-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;transition:border .2s}
+.hist-card:hover{border-color:var(--accent)}
+.hist-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.hist-date{font-size:.62rem;color:var(--muted);font-family:'DM Mono',monospace}
+.hist-sport{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;color:var(--text)}
+.hist-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.58rem;font-family:'DM Mono',monospace;font-weight:700;text-transform:uppercase}
+.pill.g{background:rgba(16,185,129,.15);color:#6ee7b7;border:1px solid rgba(16,185,129,.3)}
+.pill.w{background:rgba(245,158,11,.15);color:#fcd34d;border:1px solid rgba(245,158,11,.3)}
+.pill.d{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3)}
+.pill.i{background:rgba(0,212,255,.1);color:#7dd3fc;border:1px solid rgba(0,212,255,.25)}
+.hist-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.hist-stat{text-align:center}
+.hist-stat-val{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--accent)}
+.hist-stat-lbl{font-size:.55rem;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase}
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty-ico{font-size:3rem;margin-bottom:12px}
+.empty-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px}
+.empty-desc{font-size:.75rem;line-height:1.5}
+
+/* CHART */
+.chart-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;overflow:hidden}
+.chart-title{font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:14px}
+canvas{width:100%!important;border-radius:6px}
+
+/* PERFIL */
+.profile-avatar{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;font-family:'Syne',sans-serif;font-weight:800;color:#0a0e1a}
+.profile-name{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;text-align:center;color:var(--text)}
+.profile-sport{font-size:.72rem;color:var(--muted);text-align:center;font-family:'DM Mono',monospace;margin-top:3px}
+.stat-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(30,45,69,.5);font-size:.78rem}
+.stat-row:last-child{border-bottom:none}
+.stat-key{color:var(--muted);font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase}
+.stat-val{color:var(--text);font-weight:600}
+
+/* DETAIL */
+.detail-header{background:linear-gradient(135deg,rgba(0,212,255,.08),rgba(124,58,237,.08));border:1px solid rgba(0,212,255,.2);border-radius:14px;padding:14px;margin-bottom:12px;text-align:center}
+.rec-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(30,45,69,.5);font-size:.76rem;line-height:1.5}
+.rec-item:last-child{border-bottom:none}
+.rec-ico{font-size:1rem;flex-shrink:0}
+.rec-txt{color:var(--text)}.rec-txt b{color:var(--accent)}
+
+/* FIRMA */
+.firma{border-top:1px solid var(--border);margin-top:16px;padding-top:14px;text-align:center}
+.firma-line{width:140px;height:1px;background:var(--muted);margin:22px auto 6px}
+.firma-n{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;color:var(--text)}
+.firma-t{font-size:.6rem;color:var(--muted);font-family:'DM Mono',monospace;margin-top:2px}
+
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:14px 0}
+.section-lbl{font-family:'DM Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="hdr">
+  <div class="logo">💧 <span>Hydro</span>Check</div>
+  <div class="tag">Control de hidratacion para deportistas</div>
+  <div class="auth">by Daniela Reyes Olavarria · Nutricion Deportiva</div>
+</div>
+
+<!-- NUEVA EVALUACION -->
+<div class="screen on" id="sc-eval">
+  <div class="steps-wrap">
+    <div class="steps">
+      <div class="step active" id="st1"></div>
+      <div class="step" id="st2"></div>
+      <div class="step" id="st3"></div>
+      <div class="step" id="st4"></div>
+    </div>
+    <div class="step-lbl" id="st-lbl">Paso 1 — Tus datos</div>
+  </div>
+
+  <!-- SUB 1: DATOS -->
+  <div class="sub on" id="sub1" style="padding-top:14px">
+    <div class="card">
+      <div class="card-ico">👤</div>
+      <div class="card-title">Cuentanos sobre ti</div>
+      <div class="card-desc">Estos datos personalizan tu plan de hidratacion</div>
+      <div class="fi"><label>Tu nombre</label><input type="text" id="inp-nombre" placeholder="Como te llamas?"></div>
+      <div class="fi-row">
+        <div class="fi"><label>Edad</label><input type="number" id="inp-edad" placeholder="anos"></div>
+        <div class="fi"><label>Sexo</label><select id="inp-sexo"><option value="">--</option><option>Femenino</option><option>Masculino</option></select></div>
+      </div>
+      <div class="fi"><label>Deporte / Actividad</label>
+        <select id="inp-deporte">
+          <option value="">Selecciona tu deporte</option>
+          <option>Running / Trote</option><option>Ciclismo</option><option>Triatlon</option>
+          <option>Natacion</option><option>Futbol</option><option>Basquetbol</option>
+          <option>Voleibol</option><option>Tenis</option><option>Calistenia / Funcional</option>
+          <option>Crossfit</option><option>Pesas / Gym</option><option>Otro</option>
+        </select>
+      </div>
+      <div class="fi"><label>Ambiente</label>
+        <select id="inp-amb">
+          <option value="">Selecciona</option>
+          <option>Indoor (sala / gimnasio)</option>
+          <option>Exterior con sombra</option>
+          <option>Exterior con sol directo</option>
+          <option>Piscina</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" onclick="sub2()">Siguiente →</button>
+  </div>
+
+  <!-- SUB 2: PESOS -->
+  <div class="sub" id="sub2" style="padding-top:14px">
+    <div class="card">
+      <div class="card-ico">⚖️</div>
+      <div class="card-title">Pesos antes y despues</div>
+      <div class="card-desc">Pesate con la menor ropa posible, antes y justo al terminar</div>
+      <div class="fi"><label>Peso ANTES del ejercicio (kg)</label>
+        <div class="big-input-wrap"><input type="number" class="big-input" id="inp-pre" step="0.1" placeholder="0.0"><span class="big-unit">kg</span></div>
+      </div>
+      <div class="fi"><label>Peso DESPUES del ejercicio (kg)</label>
+        <div class="big-input-wrap"><input type="number" class="big-input" id="inp-post" step="0.1" placeholder="0.0"><span class="big-unit">kg</span></div>
+      </div>
+      <div class="fi"><label>Agua tomada durante (L)</label>
+        <div class="big-input-wrap"><input type="number" class="big-input" id="inp-liq" step="0.1" placeholder="0.0" value="0"><span class="big-unit">L</span></div>
+        <span class="hint">500ml = 0.5 · 1 botella grande = 1.0</span>
+      </div>
+      <div class="fi"><label>Visitas al bano durante</label>
+        <select id="inp-ori">
+          <option value="0">No fui al bano</option>
+          <option value="0.2">1 vez (~0.2L)</option>
+          <option value="0.4">2 veces (~0.4L)</option>
+          <option value="0.6">3 o mas veces (~0.6L)</option>
+        </select>
+      </div>
+      <div class="fi"><label>Duracion del ejercicio (min)</label>
+        <div class="big-input-wrap"><input type="number" class="big-input" id="inp-tmin" placeholder="60"><span class="big-unit">min</span></div>
+      </div>
+      <div class="fi-row">
+        <div class="fi"><label>Fecha</label><input type="date" id="inp-fecha"></div>
+        <div class="fi"><label>Hora inicio</label><input type="time" id="inp-hora"></div>
+      </div>
+      <div class="fi-row">
+        <div class="fi"><label>Temperatura °C</label><input type="number" id="inp-temp" step="0.5" placeholder="Ej: 22"></div>
+        <div class="fi"><label>Humedad %</label><input type="number" id="inp-hum" step="1" placeholder="Ej: 60"></div>
+      </div>
+      <div class="fi"><label>Lugar</label><input type="text" id="inp-lugar" placeholder="Ej: Estadio Municipal, Temuco"></div>
+    </div>
+    <button class="btn" onclick="sub3()">Siguiente →</button>
+    <button class="btn secondary" style="margin-top:6px" onclick="goSub(1)">← Volver</button>
+  </div>
+
+  <!-- SUB 3: ORINA + BORG -->
+  <div class="sub" id="sub3" style="padding-top:14px">
+    <div class="card">
+      <div class="card-ico">🌡️</div>
+      <div class="card-title">Color de tu orina</div>
+      <div class="card-desc">Mira tu primera orina del dia o antes del entreno</div>
+      <div class="urine-grid">
+        <div class="urine-btn" style="background:#FFFF99" onclick="selOrina(1)"><span class="urine-num">1</span></div>
+        <div class="urine-btn" style="background:#FFFF44" onclick="selOrina(2)"><span class="urine-num">2</span></div>
+        <div class="urine-btn" style="background:#FFE135" onclick="selOrina(3)"><span class="urine-num">3</span></div>
+        <div class="urine-btn" style="background:#FFCC00" onclick="selOrina(4)"><span class="urine-num">4</span></div>
+        <div class="urine-btn" style="background:#FFA500" onclick="selOrina(5)"><span class="urine-num dk">5</span></div>
+        <div class="urine-btn" style="background:#FF8C00" onclick="selOrina(6)"><span class="urine-num dk">6</span></div>
+        <div class="urine-btn" style="background:#CC6600" onclick="selOrina(7)"><span class="urine-num dk">7</span></div>
+        <div class="urine-btn" style="background:#8B4513" onclick="selOrina(8)"><span class="urine-num dk">8</span></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:3px">
+        <span style="font-size:.58rem;color:var(--accent3);font-family:'DM Mono',monospace">Bien hidratado</span>
+        <span style="font-size:.58rem;color:var(--danger);font-family:'DM Mono',monospace">Muy deshidratado</span>
+      </div>
+      <div id="ori-res" style="margin-top:10px"></div>
+    </div>
+    <div class="card">
+      <div class="card-ico">💪</div>
+      <div class="card-title">Como fue tu esfuerzo?</div>
+      <div class="card-desc">Escala de Borg — como te sentiste durante el entreno</div>
+      <div class="borg-wrap">
+        <div class="borg-btn" onclick="selBorg(6,'g')"><b>6</b>Muy suave</div>
+        <div class="borg-btn" onclick="selBorg(9,'g')"><b>9</b>Suave</div>
+        <div class="borg-btn" onclick="selBorg(11,'g')"><b>11</b>Moderado</div>
+        <div class="borg-btn" onclick="selBorg(13,'w')"><b>13</b>Algo duro</div>
+        <div class="borg-btn" onclick="selBorg(15,'w')"><b>15</b>Duro</div>
+        <div class="borg-btn" onclick="selBorg(17,'d')"><b>17</b>Muy duro</div>
+        <div class="borg-btn" onclick="selBorg(19,'d')"><b>19</b>Casi max</div>
+        <div class="borg-btn" onclick="selBorg(20,'d')"><b>20</b>Maximo</div>
+      </div>
+      <div id="borg-res"></div>
+    </div>
+    <button class="btn" onclick="calcular()">Ver mis resultados →</button>
+    <button class="btn secondary" style="margin-top:6px" onclick="goSub(2)">← Volver</button>
+  </div>
+
+  <!-- SUB 4: RESULTADOS -->
+  <div class="sub" id="sub4" style="padding-top:14px">
+    <div id="res-content"></div>
+    <button class="btn" onclick="nuevaEval()">+ Nueva evaluacion</button>
+    <button class="btn secondary" style="margin-top:6px" onclick="goNav('sc-hist')">Ver mi historial →</button>
+  </div>
+</div>
+
+<!-- HISTORIAL -->
+<div class="screen" id="sc-hist">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+    <div>
+      <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--text)">Mi historial</div>
+      <div style="font-size:.68rem;color:var(--muted);font-family:'DM Mono',monospace" id="hist-count">0 evaluaciones</div>
+    </div>
+    <button onclick="limpiarHistorial()" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#fca5a5;font-size:.6rem;font-family:'DM Mono',monospace;padding:5px 10px;border-radius:8px;cursor:pointer;text-transform:uppercase">Borrar todo</button>
+  </div>
+
+  <!-- FILTRO -->
+  <div class="fi" style="margin-bottom:14px">
+    <select id="filtro-deporte" onchange="renderHistorial()">
+      <option value="">Todos los deportes</option>
+      <option>Running / Trote</option><option>Ciclismo</option><option>Triatlon</option>
+      <option>Natacion</option><option>Futbol</option><option>Basquetbol</option>
+      <option>Voleibol</option><option>Tenis</option><option>Calistenia / Funcional</option>
+      <option>Crossfit</option><option>Pesas / Gym</option><option>Otro</option>
+    </select>
+  </div>
+
+  <!-- GRAFICO -->
+  <div class="chart-wrap" id="chart-wrap" style="display:none">
+    <div class="chart-title">Evolucion % deshidratacion</div>
+    <canvas id="myChart" height="140"></canvas>
+  </div>
+
+  <div id="hist-list"></div>
+</div>
+
+<!-- DETALLE EVALUACION -->
+<div class="screen" id="sc-detail">
+  <button onclick="goNav('sc-hist')" style="background:transparent;border:none;color:var(--accent);font-family:'DM Mono',monospace;font-size:.7rem;cursor:pointer;margin-bottom:14px;padding:0;text-transform:uppercase;letter-spacing:.05em">← Volver al historial</button>
+  <div id="detail-content"></div>
+</div>
+
+<!-- PERFIL -->
+<div class="screen" id="sc-perfil">
+  <div id="perfil-content"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bnav">
+  <button class="bnav-btn on" id="nav-eval" onclick="goNav('sc-eval')"><span class="ico">➕</span>Evaluar</button>
+  <button class="bnav-btn" id="nav-hist" onclick="goNav('sc-hist')"><span class="ico">📊</span>Historial</button>
+  <button class="bnav-btn" id="nav-perfil" onclick="goNav('sc-perfil')"><span class="ico">👤</span>Perfil</button>
+</div>
+
+</div><!-- wrap -->
+
+<script>
+// ── STATE ──
+var CUR={nombre:'',edad:null,sexo:'',deporte:'',ambiente:'',pre:null,post:null,liq:0,ori:0,tmin:null,fecha:'',hora:'',temp:null,hum:null,lugar:'',orina:null,borg:null,borgCls:null};
+var ORINA_DATA=[
+  {n:1,lbl:'Casi transparente',est:'Hiperhidratado',cls:'i',em:'🔵',rc:'Estas consumiendo demasiada agua. No es necesario tomar mas por ahora.'},
+  {n:2,lbl:'Amarillo muy palido',est:'Excelente hidratacion',cls:'g',em:'✅',rc:'Perfecto. Estas muy bien hidratado/a. Mantén este habito.'},
+  {n:3,lbl:'Amarillo palido',est:'Buena hidratacion',cls:'g',em:'✅',rc:'Bien hidratado/a. Eres constante con tu ingesta de liquidos.'},
+  {n:4,lbl:'Amarillo',est:'Hidratacion aceptable',cls:'g',em:'✅',rc:'Hidratacion normal. Sigue bebiendo agua regularmente durante el dia.'},
+  {n:5,lbl:'Amarillo oscuro',est:'Deshidratacion leve',cls:'w',em:'⚠️',rc:'Leve deshidratacion. Bebe mas agua antes de entrenar.'},
+  {n:6,lbl:'Ambar oscuro',est:'Deshidratacion moderada',cls:'w',em:'⚠️',rc:'Deshidratacion moderada. Hidratate bien antes de tu entrenamiento.'},
+  {n:7,lbl:'Naranja',est:'Deshidratacion importante',cls:'d',em:'🔴',rc:'Deshidratacion importante. Toma al menos 500ml antes de entrenar.'},
+  {n:8,lbl:'Cafe oscuro',est:'Deshidratacion severa',cls:'d',em:'🔴',rc:'Deshidratacion severa. Considera postponer el entrenamiento.'},
+];
+var BORG_ZONAS={6:'Recuperacion activa',9:'Base aerobica suave',11:'Aerobico moderado',13:'Tempo / Umbral aerobico',15:'Umbral anaerobico',17:'Alta intensidad',19:'Casi maximo / VO2max',20:'Esfuerzo maximo'};
+
+// ── STORAGE ──
+function getHist(){try{return JSON.parse(localStorage.getItem('hc_hist'))||[]}catch(e){return[]}}
+function saveHist(h){localStorage.setItem('hc_hist',JSON.stringify(h))}
+function addEval(ev){var h=getHist();ev.id=Date.now();h.unshift(ev);saveHist(h)}
+function getProfile(){try{return JSON.parse(localStorage.getItem('hc_profile'))||null}catch(e){return null}}
+function saveProfile(p){localStorage.setItem('hc_profile',JSON.stringify(p))}
+
+// ── NAV ──
+function goNav(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on')});
+  document.getElementById(id).classList.add('on');
+  document.querySelectorAll('.bnav-btn').forEach(function(b){b.classList.remove('on')});
+  var map={'sc-eval':'nav-eval','sc-hist':'nav-hist','sc-perfil':'nav-perfil'};
+  if(map[id]) document.getElementById(map[id]).classList.add('on');
+  if(id==='sc-hist') renderHistorial();
+  if(id==='sc-perfil') renderPerfil();
+  window.scrollTo(0,0);
+}
+
+// ── SUBS ──
+function goSub(n){
+  document.querySelectorAll('.sub').forEach(function(s){s.classList.remove('on')});
+  document.getElementById('sub'+n).classList.add('on');
+  for(var i=1;i<=4;i++){
+    var el=document.getElementById('st'+i);
+    el.className='step'+(i<n?' done':i===n?' active':'');
+  }
+  var lbls=['','Paso 1 — Tus datos','Paso 2 — Pesos','Paso 3 — Orina e intensidad','Tus resultados'];
+  document.getElementById('st-lbl').textContent=lbls[n];
+  window.scrollTo(0,0);
+}
+
+function sub2(){
+  var nm=document.getElementById('inp-nombre').value.trim();
+  var dep=document.getElementById('inp-deporte').value;
+  if(!nm){alert('Por favor ingresa tu nombre.');return}
+  if(!dep){alert('Selecciona tu deporte.');return}
+  CUR.nombre=nm; CUR.edad=parseFloat(document.getElementById('inp-edad').value)||null;
+  CUR.sexo=document.getElementById('inp-sexo').value;
+  CUR.deporte=dep; CUR.ambiente=document.getElementById('inp-amb').value;
+  // Guardar perfil
+  saveProfile({nombre:nm,edad:CUR.edad,sexo:CUR.sexo,deporte:dep});
+  goSub(2);
+}
+
+function sub3(){
+  var pre=parseFloat(document.getElementById('inp-pre').value);
+  var post=parseFloat(document.getElementById('inp-post').value);
+  var tmin=parseFloat(document.getElementById('inp-tmin').value);
+  if(isNaN(pre)||pre<=0){alert('Ingresa tu peso ANTES.');return}
+  if(isNaN(post)||post<=0){alert('Ingresa tu peso DESPUES.');return}
+  if(isNaN(tmin)||tmin<=0){alert('Ingresa la duracion.');return}
+  CUR.pre=pre; CUR.post=post;
+  CUR.liq=parseFloat(document.getElementById('inp-liq').value)||0;
+  CUR.ori=parseFloat(document.getElementById('inp-ori').value)||0;
+  CUR.tmin=tmin;
+  CUR.fecha=document.getElementById('inp-fecha').value;
+  CUR.hora=document.getElementById('inp-hora').value;
+  CUR.temp=parseFloat(document.getElementById('inp-temp').value)||null;
+  CUR.hum=parseFloat(document.getElementById('inp-hum').value)||null;
+  CUR.lugar=document.getElementById('inp-lugar').value;
+  goSub(3);
+}
+
+function selOrina(n){
+  document.querySelectorAll('.urine-btn').forEach(function(e,i){e.classList.toggle('on',i===n-1)});
+  var d=ORINA_DATA[n-1]; CUR.orina=d;
+  document.getElementById('ori-res').innerHTML='<div class="al '+d.cls+'"><strong>'+d.em+' '+d.est+'</strong>'+d.rc+'</div>';
+}
+
+function selBorg(n,cls){
+  document.querySelectorAll('.borg-btn').forEach(function(b){b.className='borg-btn'});
+  event.target.closest('.borg-btn').classList.add('on',cls);
+  CUR.borg=n; CUR.borgCls=cls;
+  var em={g:'🟢',w:'🟡',d:'🔴'};
+  document.getElementById('borg-res').innerHTML='<div class="al '+cls+'" style="margin-top:8px"><strong>'+em[cls]+' Borg '+n+'/20</strong>'+(BORG_ZONAS[n]||'Alta intensidad')+'</div>';
+}
+
+// ── CALCULOS ──
+function calcular(){
+  if(!CUR.orina){alert('Selecciona el color de tu orina.');return}
+  if(!CUR.borg){alert('Selecciona como fue tu esfuerzo.');return}
+  var h=CUR.tmin/60;
+  var pm=CUR.pre-CUR.post;
+  var ps=pm+CUR.liq-CUR.ori;
+  var pd=(pm/CUR.pre)*100;
+  var tLh=Math.max(0.1,ps/h);
+  var tMm=(ps*1000)/CUR.tmin;
+  var ah=tLh*1000;
+  // Ajuste intensidad y ambiente
+  var fi=CUR.borg>=17?1.15:CUR.borg>=13?1.05:1.0;
+  var fa=(CUR.ambiente&&CUR.ambiente.indexOf('sol')>-1)?1.15:(CUR.ambiente&&CUR.ambiente.indexOf('sombra')>-1)?1.05:1.0;
+  var ahAdj=Math.round(ah*fi*fa/50)*50;
+  var rdAdj=Math.round(ahAdj/4);
+  var rp=pm*1.5;
+  // Clasificacion
+  var dcCls=pd<1?'g':pd<2?'w':'d';
+  var dcLbl=pd<1?'Minima':pd<2?'Leve':pd<3?'Moderada':'Severa';
+  // Guardar en historial
+  var ev={nombre:CUR.nombre,edad:CUR.edad,sexo:CUR.sexo,deporte:CUR.deporte,ambiente:CUR.ambiente,
+    pre:CUR.pre,post:CUR.post,liq:CUR.liq,ori:CUR.ori,tmin:CUR.tmin,
+    fechaSesion:CUR.fecha,horaSesion:CUR.hora,temp:CUR.temp,hum:CUR.hum,lugar:CUR.lugar,
+    orina:{n:CUR.orina.n,lbl:CUR.orina.lbl,cls:CUR.orina.cls,em:CUR.orina.em},
+    borg:CUR.borg,borgCls:CUR.borgCls,
+    pm:pm,ps:ps,pd:pd,tLh:tLh,tMm:tMm,ah:ahAdj,rd:rdAdj,rp:rp,
+    dcCls:dcCls,dcLbl:dcLbl,
+    fecha:new Date().toISOString()};
+  addEval(ev);
+  renderResultados(ev,'res-content');
+  goSub(4);
+}
+
+function renderResultados(ev,containerId){
+  var pd=ev.pd,pm=ev.pm,dcCls=ev.dcCls;
+  var html='';
+  // Header
+  html+='<div style="text-align:center;padding:8px 0 14px">'+
+    '<div style="font-family:\'Syne\',sans-serif;font-size:1.05rem;font-weight:800;color:var(--text)">'+
+    (ev.nombre?'Hola, '+ev.nombre+'! Aqui estan tus resultados:':'Tus resultados')+'</div>'+
+    '<div style="font-size:.68rem;color:var(--muted);margin-top:3px;font-family:\'DM Mono\',monospace">'+ev.deporte+(ev.ambiente?' · '+ev.ambiente:'')+'</div>'+
+    (ev.lugar?'<div style="font-size:.65rem;color:var(--muted);font-family:\'DM Mono\',monospace;margin-top:2px">📍 '+ev.lugar+'</div>':'')+
+    ((ev.fechaSesion||ev.temp)?'<div style="font-size:.65rem;color:var(--muted);font-family:\'DM Mono\',monospace;margin-top:2px">'+(ev.fechaSesion?'📅 '+ev.fechaSesion:'')+( ev.horaSesion?' '+ev.horaSesion:'')+( ev.temp?' · 🌡️ '+ev.temp+'°C':'')+( ev.hum?' · 💧 '+ev.hum+'%':'')+'</div>':'')+
+    '</div>';
+  // Metrics
+  html+='<div class="mg">'+
+    '<div class="m"><div class="m-top '+dcCls+'"></div><div class="m-lbl">Deshidratacion</div><div class="m-val '+dcCls+'">'+pd.toFixed(1)+'%</div><div class="m-sub"><span class="pill '+dcCls+'">'+ev.dcLbl+'</span></div></div>'+
+    '<div class="m"><div class="m-top accent"></div><div class="m-lbl">Sudor perdido</div><div class="m-val">'+ev.ps.toFixed(2)+' L</div><div class="m-sub">'+pm.toFixed(2)+' kg masa</div></div>'+
+    '<div class="m"><div class="m-top w"></div><div class="m-lbl">Tasa sudoracion</div><div class="m-val w">'+Math.round(ev.tLh*1000)+' ml/h</div><div class="m-sub">'+ev.tMm.toFixed(1)+' ml/min</div></div>'+
+    '<div class="m"><div class="m-top g"></div><div class="m-lbl">Duracion</div><div class="m-val g">'+ev.tmin+' min</div><div class="m-sub">Borg '+ev.borg+'/20</div></div>'+
+    '</div>';
+  // Alerta deshidratacion
+  var am={g:'<strong>✅ Buena hidratacion ('+pd.toFixed(1)+'%)</strong>Perdida menor al 1%. Te hidrataste bien durante el entrenamiento.',
+    w:'<strong>⚠️ Deshidratacion leve ('+pd.toFixed(1)+'%)</strong>Perdiste entre 1-2% de tu peso. Necesitas beber mas durante el entreno.',
+    d:'<strong>🔴 Deshidratacion significativa ('+pd.toFixed(1)+'%)</strong>Mas del 2% de perdida afecta seriamente tu rendimiento y salud.'};
+  html+='<div class="al '+dcCls+'">'+(am[dcCls])+'</div>';
+  // Orina
+  html+='<div class="al '+ev.orina.cls+'"><strong>'+ev.orina.em+' Orina: '+ev.orina.lbl+'</strong>'+ORINA_DATA[ev.orina.n-1].rc+'</div>';
+  // Plan
+  html+='<div class="plan-box">'+
+    '<div class="plan-title">📋 Tu plan para sesiones como esta</div>'+
+    '<div class="plan-item"><span class="plan-em">💧</span><div><div class="plan-k">Agua por hora</div><div class="plan-v">'+ev.ah+' ml/hora</div><div class="plan-s">'+ev.rd+' ml cada 15 minutos</div></div></div>'+
+    '<div class="plan-item"><span class="plan-em">🌊</span><div><div class="plan-k">Reponer despues</div><div class="plan-v w">'+ev.rp.toFixed(2)+' L</div><div class="plan-s">En las proximas 2 horas (ACSM)</div></div></div>'+
+    '<div class="plan-item"><span class="plan-em">🧂</span><div><div class="plan-k">Sodio post-ejercicio</div><div class="plan-v g">Incluir en comida</div><div class="plan-s">Sopas, queso, frutos salados</div></div></div>'+
+    '</div>';
+  // Recomendaciones
+  html+='<div class="card"><div class="ct">Recomendaciones</div>';
+  var antes='Comienza siempre bien hidratado/a. Bebe 400-600 ml en las 2 horas previas.';
+  if(ev.orina.n>=5)antes='Tu orina indica deshidratacion. Bebe al menos 500ml antes de empezar.';
+  if(ev.orina.n>=7)antes='Deshidratacion importante. Considera reducir la intensidad hasta rehidratarte.';
+  html+='<div class="rec-item"><span class="rec-ico">🌅</span><span class="rec-txt"><b>Antes:</b> '+antes+'</span></div>';
+  var dur='Bebe <b>'+ev.ah+' ml/hora</b> ('+(ev.ah/4)+' ml cada 15 min). No esperes a tener sed.';
+  if(ev.borg>=17)dur='Con intensidad alta, bebe <b>'+ev.ah+' ml/hora</b> y considera bebida isotonica si duras mas de 60 min.';
+  if(ev.ambiente&&ev.ambiente.indexOf('sol')>-1)dur='Con calor y sol, aumenta a <b>'+ev.ah+' ml/hora</b> y prioriza bebida con sodio.';
+  html+='<div class="rec-item"><span class="rec-ico">🏃</span><span class="rec-txt"><b>Durante:</b> '+dur+'</span></div>';
+  html+='<div class="rec-item"><span class="rec-ico">🌊</span><span class="rec-txt"><b>Despues:</b> Repone <b>'+ev.rp.toFixed(2)+' L</b> en 2 horas. Equivale a '+Math.ceil(ev.rp/0.25)+' vasos.</span></div>';
+  html+='<div class="rec-item"><span class="rec-ico">🍽️</span><span class="rec-txt"><b>Comida post-entreno:</b> Incluye sodio — sopas, queso, aceitunas, pan con palta.</span></div>';
+  if(ev.borg>=15)html+='<div class="rec-item"><span class="rec-ico">⚡</span><span class="rec-txt"><b>Alta intensidad (Borg '+ev.borg+'):</b> Considera bebida isotonica si superas 60 min a esta intensidad.</span></div>';
+  html+='</div>';
+  // Firma
+  // Condiciones de la sesion
+  var condHtml='';
+  if(ev.fechaSesion||ev.temp||ev.hum||ev.lugar){
+    condHtml='<div class="card"><div class="ct">Condiciones de la sesion</div>';
+    if(ev.fechaSesion)condHtml+='<div class="stat-row"><span class="stat-key">Fecha / Hora</span><span class="stat-val">'+ev.fechaSesion+(ev.horaSesion?' '+ev.horaSesion:'')+'</span></div>';
+    if(ev.lugar)condHtml+='<div class="stat-row"><span class="stat-key">Lugar</span><span class="stat-val">'+ev.lugar+'</span></div>';
+    if(ev.temp!==null&&ev.temp!==undefined)condHtml+='<div class="stat-row"><span class="stat-key">Temperatura</span><span class="stat-val">'+ev.temp+' °C</span></div>';
+    if(ev.hum!==null&&ev.hum!==undefined)condHtml+='<div class="stat-row"><span class="stat-key">Humedad relativa</span><span class="stat-val">'+ev.hum+' %</span></div>';
+    if(ev.ambiente)condHtml+='<div class="stat-row"><span class="stat-key">Ambiente</span><span class="stat-val">'+ev.ambiente+'</span></div>';
+    condHtml+='</div>';
+    html+=condHtml;
+  }
+  var hoy=new Date(ev.fecha).toLocaleDateString('es-CL',{year:'numeric',month:'long',day:'numeric'});
+  html+='<div class="firma"><div style="font-size:.6rem;color:var(--muted);font-family:\'DM Mono\',monospace">'+hoy+'</div><div class="firma-line"></div><div class="firma-n">Daniela Reyes Olavarria</div><div class="firma-t">Nutricionista Deportiva · HydroCheck</div></div>';
+  document.getElementById(containerId).innerHTML=html;
+}
+
+// ── HISTORIAL ──
+function renderHistorial(){
+  var hist=getHist();
+  var filtro=document.getElementById('filtro-deporte').value;
+  if(filtro)hist=hist.filter(function(e){return e.deporte===filtro});
+  document.getElementById('hist-count').textContent=hist.length+' evaluacion'+(hist.length!==1?'es':'');
+  // Grafico
+  var cw=document.getElementById('chart-wrap');
+  if(hist.length>1){
+    cw.style.display='block';
+    drawChart(hist.slice().reverse());
+  } else {
+    cw.style.display='none';
+  }
+  // Lista
+  var el=document.getElementById('hist-list');
+  if(hist.length===0){
+    el.innerHTML='<div class="empty-state"><div class="empty-ico">📋</div><div class="empty-title">Sin evaluaciones aun</div><div class="empty-desc">Completa tu primera evaluacion para ver tu historial de hidratacion</div></div>';
+    return;
+  }
+  var html='';
+  hist.forEach(function(ev){
+    var fd=new Date(ev.fecha).toLocaleDateString('es-CL',{day:'2-digit',month:'short',year:'numeric'});
+    var ft=new Date(ev.fecha).toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'});
+    html+='<div class="hist-card" onclick="verDetalle('+ev.id+')">'+
+      '<div class="hist-header">'+
+      '<div><div class="hist-sport">'+ev.deporte+'</div><div class="hist-date">'+fd+' · '+ft+'</div></div>'+
+      '<span class="pill '+ev.dcCls+'">'+ev.pd.toFixed(1)+'%</span>'+
+      '</div>'+
+      '<div class="hist-pills">'+
+      '<span class="pill i">'+ev.tmin+' min</span>'+
+      '<span class="pill '+ev.orina.cls+'">Orina '+ev.orina.n+'/8</span>'+
+      '<span class="pill '+ev.borgCls+'">Borg '+ev.borg+'</span>'+
+      (ev.ambiente?'<span class="pill i">'+ev.ambiente.split(' ')[0]+'</span>':'')+
+      '</div>'+
+      '<div class="hist-stats">'+
+      '<div class="hist-stat"><div class="hist-stat-val" style="color:var(--'+(ev.dcCls==='g'?'accent3':ev.dcCls==='w'?'warn':'danger')+')">'+ev.pd.toFixed(1)+'%</div><div class="hist-stat-lbl">Deshidrat.</div></div>'+
+      '<div class="hist-stat"><div class="hist-stat-val">'+Math.round(ev.tLh*1000)+' ml/h</div><div class="hist-stat-lbl">Tasa sudor</div></div>'+
+      '<div class="hist-stat"><div class="hist-stat-val" style="color:var(--warn)">'+ev.ah+' ml/h</div><div class="hist-stat-lbl">Agua/hora</div></div>'+
+      '</div>'+
+      '</div>';
+  });
+  el.innerHTML=html;
+}
+
+function verDetalle(id){
+  var hist=getHist();
+  var ev=hist.find(function(e){return e.id===id});
+  if(!ev)return;
+  renderResultados(ev,'detail-content');
+  // Agregar boton eliminar
+  var btn='<button class="btn danger-btn" style="margin-top:10px" onclick="eliminarEval('+id+')">🗑️ Eliminar esta evaluacion</button>';
+  document.getElementById('detail-content').insertAdjacentHTML('beforeend',btn);
+  goNav('sc-detail');
+}
+
+function eliminarEval(id){
+  if(!confirm('Eliminar esta evaluacion?'))return;
+  var hist=getHist().filter(function(e){return e.id!==id});
+  saveHist(hist);
+  goNav('sc-hist');
+}
+
+function limpiarHistorial(){
+  if(!confirm('Borrar TODAS las evaluaciones? Esta accion no se puede deshacer.'))return;
+  localStorage.removeItem('hc_hist');
+  renderHistorial();
+}
+
+// ── GRAFICO ──
+function drawChart(hist){
+  var canvas=document.getElementById('myChart');
+  var ctx=canvas.getContext('2d');
+  var W=canvas.offsetWidth||340;
+  var H=140;
+  canvas.width=W*2; canvas.height=H*2;
+  canvas.style.width=W+'px'; canvas.style.height=H+'px';
+  ctx.scale(2,2);
+  ctx.clearRect(0,0,W,H);
+  var pad={t:10,r:10,b:30,l:38};
+  var cW=W-pad.l-pad.r, cH=H-pad.t-pad.b;
+  var vals=hist.map(function(e){return e.pd});
+  var maxV=Math.max(Math.max.apply(null,vals),3);
+  // Grid lines
+  ctx.strokeStyle='rgba(30,45,69,0.8)'; ctx.lineWidth=1;
+  [0,1,2,3].forEach(function(v){
+    if(v>maxV)return;
+    var y=pad.t+cH-(v/maxV)*cH;
+    ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(pad.l+cW,y); ctx.stroke();
+    ctx.fillStyle='#64748b'; ctx.font='9px DM Mono,monospace';
+    ctx.textAlign='right'; ctx.fillText(v+'%',pad.l-4,y+3);
+  });
+  // Zona segura (< 2%)
+  var y2=pad.t+cH-(2/maxV)*cH;
+  ctx.fillStyle='rgba(16,185,129,0.06)';
+  ctx.fillRect(pad.l,y2,cW,pad.t+cH-y2);
+  // Linea
+  var pts=hist.map(function(e,i){
+    return{x:pad.l+(i/(hist.length-1||1))*cW, y:pad.t+cH-(e.pd/maxV)*cH};
+  });
+  // Gradiente bajo la linea
+  var grad=ctx.createLinearGradient(0,pad.t,0,pad.t+cH);
+  grad.addColorStop(0,'rgba(0,212,255,0.3)');
+  grad.addColorStop(1,'rgba(0,212,255,0)');
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x,pad.t+cH);
+  pts.forEach(function(p){ctx.lineTo(p.x,p.y)});
+  ctx.lineTo(pts[pts.length-1].x,pad.t+cH);
+  ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
+  // Linea principal
+  ctx.beginPath(); ctx.strokeStyle='#00d4ff'; ctx.lineWidth=2; ctx.lineJoin='round';
+  pts.forEach(function(p,i){i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y)});
+  ctx.stroke();
+  // Puntos
+  pts.forEach(function(p,i){
+    var v=vals[i];
+    var col=v<1?'#10b981':v<2?'#f59e0b':'#ef4444';
+    ctx.beginPath(); ctx.arc(p.x,p.y,4,0,Math.PI*2);
+    ctx.fillStyle=col; ctx.fill();
+    ctx.strokeStyle='#0a0e1a'; ctx.lineWidth=1.5; ctx.stroke();
+  });
+  // Labels X (fechas abreviadas)
+  ctx.fillStyle='#64748b'; ctx.font='8px DM Mono,monospace'; ctx.textAlign='center';
+  hist.forEach(function(e,i){
+    var x=pad.l+(i/(hist.length-1||1))*cW;
+    var d=new Date(e.fecha);
+    var lbl=(d.getDate())+'/'+(d.getMonth()+1);
+    ctx.fillText(lbl,x,H-4);
+  });
+}
+
+// ── PERFIL ──
+function renderPerfil(){
+  var perfil=getProfile();
+  var hist=getHist();
+  var el=document.getElementById('perfil-content');
+  if(!perfil&&hist.length===0){
+    el.innerHTML='<div class="empty-state"><div class="empty-ico">👤</div><div class="empty-title">Sin datos aun</div><div class="empty-desc">Completa tu primera evaluacion para ver tu perfil</div></div>';
+    return;
+  }
+  var nombre=perfil?perfil.nombre:'Deportista';
+  var inicial=nombre.charAt(0).toUpperCase();
+  var totalEvals=hist.length;
+  var avgPd=totalEvals>0?hist.reduce(function(a,e){return a+e.pd},0)/totalEvals:0;
+  var bestPd=totalEvals>0?Math.min.apply(null,hist.map(function(e){return e.pd})):0;
+  var avgAh=totalEvals>0?hist.reduce(function(a,e){return a+e.ah},0)/totalEvals:0;
+  // Deporte mas frecuente
+  var deporteCount={};
+  hist.forEach(function(e){deporteCount[e.deporte]=(deporteCount[e.deporte]||0)+1});
+  var deporteFav=Object.keys(deporteCount).sort(function(a,b){return deporteCount[b]-deporteCount[a]})[0]||'--';
+  // Tendencia
+  var tendencia='--';
+  if(hist.length>=3){
+    var recientes=hist.slice(0,3).map(function(e){return e.pd});
+    var antiguos=hist.slice(-3).map(function(e){return e.pd});
+    var avgRec=recientes.reduce(function(a,b){return a+b},0)/3;
+    var avgAnt=antiguos.reduce(function(a,b){return a+b},0)/3;
+    tendencia=avgRec<avgAnt?'📈 Mejorando':avgRec>avgAnt?'📉 Empeorando':'➡️ Estable';
+  }
+  var html='<div class="card">'+
+    '<div class="profile-avatar">'+inicial+'</div>'+
+    '<div class="profile-name">'+nombre+'</div>'+
+    '<div class="profile-sport">'+(perfil&&perfil.deporte?perfil.deporte:'')+(perfil&&perfil.edad?' · '+perfil.edad+' anos':'')+'</div>'+
+    '</div>';
+  html+='<div class="card"><div class="ct">Mis estadisticas</div>'+
+    '<div class="stat-row"><span class="stat-key">Total de evaluaciones</span><span class="stat-val">'+totalEvals+'</span></div>'+
+    '<div class="stat-row"><span class="stat-key">% Deshidratacion promedio</span><span class="stat-val">'+avgPd.toFixed(1)+'%</span></div>'+
+    '<div class="stat-row"><span class="stat-key">Mejor evaluacion</span><span class="stat-val">'+bestPd.toFixed(1)+'% perdida</span></div>'+
+    '<div class="stat-row"><span class="stat-key">Agua promedio necesaria</span><span class="stat-val">'+Math.round(avgAh)+' ml/hora</span></div>'+
+    '<div class="stat-row"><span class="stat-key">Deporte mas frecuente</span><span class="stat-val">'+deporteFav+'</span></div>'+
+    '<div class="stat-row"><span class="stat-key">Tendencia reciente</span><span class="stat-val">'+tendencia+'</span></div>'+
+    '</div>';
+  // Ultimas 3 evaluaciones por deporte
+  if(hist.length>0){
+    html+='<div class="card"><div class="ct">Por deporte</div>';
+    var porDeporte={};
+    hist.forEach(function(e){
+      if(!porDeporte[e.deporte])porDeporte[e.deporte]=[];
+      porDeporte[e.deporte].push(e);
+    });
+    Object.keys(porDeporte).forEach(function(dep){
+      var evs=porDeporte[dep];
+      var avg=evs.reduce(function(a,e){return a+e.pd},0)/evs.length;
+      var col=avg<1?'var(--accent3)':avg<2?'var(--warn)':'var(--danger)';
+      html+='<div class="stat-row"><span class="stat-key">'+dep+'<br><span style="font-size:.55rem">'+evs.length+' sesion'+(evs.length!==1?'es':'')+'</span></span>'+
+        '<span class="stat-val" style="color:'+col+'">'+avg.toFixed(1)+'% prom.</span></div>';
+    });
+    html+='</div>';
+  }
+  // Firma
+  html+='<div class="firma"><div class="firma-line"></div><div class="firma-n">Daniela Reyes Olavarria</div><div class="firma-t">Nutricionista Deportiva · HydroCheck</div></div>';
+  el.innerHTML=html;
+}
+
+// ── RESET ──
+function nuevaEval(){
+  CUR={nombre:'',edad:null,sexo:'',deporte:'',ambiente:'',pre:null,post:null,liq:0,ori:0,tmin:null,orina:null,borg:null,borgCls:null};
+  ['inp-nombre','inp-edad','inp-pre','inp-post','inp-tmin','inp-fecha','inp-hora','inp-temp','inp-hum','inp-lugar'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
+  document.getElementById('inp-liq').value='0';
+  document.getElementById('inp-sexo').value='';
+  document.getElementById('inp-deporte').value='';
+  document.getElementById('inp-amb').value='';
+  document.getElementById('inp-ori').value='0';
+  document.getElementById('ori-res').innerHTML='';
+  document.getElementById('borg-res').innerHTML='';
+  document.querySelectorAll('.urine-btn').forEach(function(e){e.classList.remove('on')});
+  document.querySelectorAll('.borg-btn').forEach(function(b){b.className='borg-btn'});
+  // Precargar nombre si hay perfil
+  var p=getProfile();
+  if(p&&p.nombre){
+    document.getElementById('inp-nombre').value=p.nombre;
+    if(p.edad)document.getElementById('inp-edad').value=p.edad;
+    if(p.sexo)document.getElementById('inp-sexo').value=p.sexo;
+    if(p.deporte)document.getElementById('inp-deporte').value=p.deporte;
+  }
+  goNav('sc-eval');
+  goSub(1);
+}
+
+// Set default fecha/hora
+(function(){
+  var fd=document.getElementById('inp-fecha');
+  var fh=document.getElementById('inp-hora');
+  if(fd) fd.valueAsDate=new Date();
+  if(fh) fh.value=new Date().toTimeString().slice(0,5);
+})();
+</script>
+</body>
+</html>
