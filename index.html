@@ -269,22 +269,60 @@ canvas{width:100%!important;border-radius:6px}
     <div class="card">
       <div class="card-ico">🌡️</div>
       <div class="card-title">Color de tu orina</div>
-      <div class="card-desc">Mira tu primera orina del dia o antes del entreno</div>
+
+      <!-- ANTES -->
+      <div style="font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;color:var(--accent);margin-bottom:6px">🌅 ANTES de entrenar</div>
+      <div class="card-desc" style="text-align:left;margin-bottom:10px">Mira tu primera orina del dia o antes de comenzar</div>
       <div class="urine-grid">
-        <div class="urine-btn" style="background:#FFFF99" onclick="selOrina(1)"><span class="urine-num">1</span></div>
-        <div class="urine-btn" style="background:#FFFF44" onclick="selOrina(2)"><span class="urine-num">2</span></div>
-        <div class="urine-btn" style="background:#FFE135" onclick="selOrina(3)"><span class="urine-num">3</span></div>
-        <div class="urine-btn" style="background:#FFCC00" onclick="selOrina(4)"><span class="urine-num">4</span></div>
-        <div class="urine-btn" style="background:#FFA500" onclick="selOrina(5)"><span class="urine-num dk">5</span></div>
-        <div class="urine-btn" style="background:#FF8C00" onclick="selOrina(6)"><span class="urine-num dk">6</span></div>
-        <div class="urine-btn" style="background:#CC6600" onclick="selOrina(7)"><span class="urine-num dk">7</span></div>
-        <div class="urine-btn" style="background:#8B4513" onclick="selOrina(8)"><span class="urine-num dk">8</span></div>
+        <div class="urine-btn" style="background:#FFFF99" onclick="selOrinaAntes(1)"><span class="urine-num">1</span></div>
+        <div class="urine-btn" style="background:#FFFF44" onclick="selOrinaAntes(2)"><span class="urine-num">2</span></div>
+        <div class="urine-btn" style="background:#FFE135" onclick="selOrinaAntes(3)"><span class="urine-num">3</span></div>
+        <div class="urine-btn" style="background:#FFCC00" onclick="selOrinaAntes(4)"><span class="urine-num">4</span></div>
+        <div class="urine-btn" style="background:#FFA500" onclick="selOrinaAntes(5)"><span class="urine-num dk">5</span></div>
+        <div class="urine-btn" style="background:#FF8C00" onclick="selOrinaAntes(6)"><span class="urine-num dk">6</span></div>
+        <div class="urine-btn" style="background:#CC6600" onclick="selOrinaAntes(7)"><span class="urine-num dk">7</span></div>
+        <div class="urine-btn" style="background:#8B4513" onclick="selOrinaAntes(8)"><span class="urine-num dk">8</span></div>
       </div>
       <div style="display:flex;justify-content:space-between;margin-top:3px">
-        <span style="font-size:.58rem;color:var(--accent3);font-family:'DM Mono',monospace">Bien hidratado</span>
-        <span style="font-size:.58rem;color:var(--danger);font-family:'DM Mono',monospace">Muy deshidratado</span>
+        <span style="font-size:.55rem;color:var(--accent3);font-family:'DM Mono',monospace">Bien hidratado</span>
+        <span style="font-size:.55rem;color:var(--danger);font-family:'DM Mono',monospace">Muy deshidratado</span>
       </div>
-      <div id="ori-res" style="margin-top:10px"></div>
+      <div id="ori-antes-res" style="margin-top:8px"></div>
+
+      <!-- Volumen antes -->
+      <div class="fi" style="margin-top:10px">
+        <label>Volumen de orina ANTES (ml) — opcional</label>
+        <input type="number" id="inp-vol-antes" placeholder="Ej: 200 ml" step="10" min="0">
+        <span class="hint">Si puedes medirlo con un vaso graduado o estimas visualmente</span>
+      </div>
+
+      <div style="height:1px;background:var(--border);margin:14px 0"></div>
+
+      <!-- DESPUES -->
+      <div style="font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;color:var(--accent2);margin-bottom:6px">🌇 DESPUES de entrenar</div>
+      <div class="card-desc" style="text-align:left;margin-bottom:10px">Primera orina al terminar el entrenamiento</div>
+      <div class="urine-grid" id="urine-grid-despues">
+        <div class="urine-btn" style="background:#FFFF99" onclick="selOrinaDesp(1)"><span class="urine-num">1</span></div>
+        <div class="urine-btn" style="background:#FFFF44" onclick="selOrinaDesp(2)"><span class="urine-num">2</span></div>
+        <div class="urine-btn" style="background:#FFE135" onclick="selOrinaDesp(3)"><span class="urine-num">3</span></div>
+        <div class="urine-btn" style="background:#FFCC00" onclick="selOrinaDesp(4)"><span class="urine-num">4</span></div>
+        <div class="urine-btn" style="background:#FFA500" onclick="selOrinaDesp(5)"><span class="urine-num dk">5</span></div>
+        <div class="urine-btn" style="background:#FF8C00" onclick="selOrinaDesp(6)"><span class="urine-num dk">6</span></div>
+        <div class="urine-btn" style="background:#CC6600" onclick="selOrinaDesp(7)"><span class="urine-num dk">7</span></div>
+        <div class="urine-btn" style="background:#8B4513" onclick="selOrinaDesp(8)"><span class="urine-num dk">8</span></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:3px">
+        <span style="font-size:.55rem;color:var(--accent3);font-family:'DM Mono',monospace">Bien hidratado</span>
+        <span style="font-size:.55rem;color:var(--danger);font-family:'DM Mono',monospace">Muy deshidratado</span>
+      </div>
+      <div id="ori-desp-res" style="margin-top:8px"></div>
+
+      <!-- Volumen despues -->
+      <div class="fi" style="margin-top:10px">
+        <label>Volumen de orina DESPUES (ml) — opcional</label>
+        <input type="number" id="inp-vol-desp" placeholder="Ej: 150 ml" step="10" min="0">
+        <span class="hint">Si puedes medirlo con un vaso graduado o estimas visualmente</span>
+      </div>
     </div>
     <div class="card">
       <div class="card-ico">💪</div>
@@ -366,7 +404,7 @@ canvas{width:100%!important;border-radius:6px}
 
 <script>
 // ── STATE ──
-var CUR={nombre:'',edad:null,sexo:'',deporte:'',ambiente:'',pre:null,post:null,liq:0,ori:0,tmin:null,fecha:'',hora:'',temp:null,hum:null,lugar:'',orina:null,borg:null,borgCls:null};
+var CUR={nombre:'',edad:null,sexo:'',deporte:'',ambiente:'',pre:null,post:null,liq:0,ori:0,tmin:null,fecha:'',hora:'',temp:null,hum:null,lugar:'',orinaAntes:null,orinaDesp:null,volAntes:null,volDesp:null,borg:null,borgCls:null};
 var ORINA_DATA=[
   {n:1,lbl:'Casi transparente',est:'Hiperhidratado',cls:'i',em:'🔵',rc:'Estas consumiendo demasiada agua. No es necesario tomar mas por ahora.'},
   {n:2,lbl:'Amarillo muy palido',est:'Excelente hidratacion',cls:'g',em:'✅',rc:'Perfecto. Estas muy bien hidratado/a. Mantén este habito.'},
@@ -443,10 +481,19 @@ function sub3(){
   goSub(3);
 }
 
-function selOrina(n){
-  document.querySelectorAll('.urine-btn').forEach(function(e,i){e.classList.toggle('on',i===n-1)});
-  var d=ORINA_DATA[n-1]; CUR.orina=d;
-  document.getElementById('ori-res').innerHTML='<div class="al '+d.cls+'"><strong>'+d.em+' '+d.est+'</strong>'+d.rc+'</div>';
+function selOrinaAntes(n){
+  var btns=document.querySelectorAll('#sec-eval .sub.on .urine-grid:first-of-type .urine-btn, #sub3 .card:first-of-type .urine-btn');
+  // Select only antes buttons (first grid)
+  var allGrids=document.querySelectorAll('#sub3 .urine-grid');
+  if(allGrids[0]) allGrids[0].querySelectorAll('.urine-btn').forEach(function(e,i){e.classList.toggle('on',i===n-1)});
+  var d=ORINA_DATA[n-1]; CUR.orinaAntes=d;
+  document.getElementById('ori-antes-res').innerHTML='<div class="al '+d.cls+'"><strong>'+d.em+' Antes: '+d.est+'</strong>'+d.rc+'</div>';
+}
+function selOrinaDesp(n){
+  var allGrids=document.querySelectorAll('#sub3 .urine-grid');
+  if(allGrids[1]) allGrids[1].querySelectorAll('.urine-btn').forEach(function(e,i){e.classList.toggle('on',i===n-1)});
+  var d=ORINA_DATA[n-1]; CUR.orinaDesp=d;
+  document.getElementById('ori-desp-res').innerHTML='<div class="al '+d.cls+'"><strong>'+d.em+' Despues: '+d.est+'</strong>'+d.rc+'</div>';
 }
 
 function selBorg(n,cls){
@@ -459,7 +506,7 @@ function selBorg(n,cls){
 
 // ── CALCULOS ──
 function calcular(){
-  if(!CUR.orina){alert('Selecciona el color de tu orina.');return}
+  if(!CUR.orinaAntes){alert('Selecciona el color de tu orina ANTES de entrenar.');return}
   if(!CUR.borg){alert('Selecciona como fue tu esfuerzo.');return}
   var h=CUR.tmin/60;
   var pm=CUR.pre-CUR.post;
@@ -485,10 +532,14 @@ function calcular(){
   var dcCls=pd<1?'g':pd<2?'w':'d';
   var dcLbl=pd<1?'Minima':pd<2?'Leve':pd<3?'Moderada':'Severa';
   // Guardar en historial
+  CUR.volAntes=parseFloat(document.getElementById('inp-vol-antes').value)||null;
+  CUR.volDesp=parseFloat(document.getElementById('inp-vol-desp').value)||null;
   var ev={nombre:CUR.nombre,edad:CUR.edad,sexo:CUR.sexo,deporte:CUR.deporte,ambiente:CUR.ambiente,
     pre:CUR.pre,post:CUR.post,liq:CUR.liq,ori:CUR.ori,tmin:CUR.tmin,
     fechaSesion:CUR.fecha,horaSesion:CUR.hora,temp:CUR.temp,hum:CUR.hum,lugar:CUR.lugar,
-    orina:{n:CUR.orina.n,lbl:CUR.orina.lbl,cls:CUR.orina.cls,em:CUR.orina.em},
+    volAntes:CUR.volAntes,volDesp:CUR.volDesp,
+    orinaAntes:{n:CUR.orinaAntes.n,lbl:CUR.orinaAntes.lbl,cls:CUR.orinaAntes.cls,em:CUR.orinaAntes.em},
+    orinaDesp:CUR.orinaDesp?{n:CUR.orinaDesp.n,lbl:CUR.orinaDesp.lbl,cls:CUR.orinaDesp.cls,em:CUR.orinaDesp.em}:null,
     borg:CUR.borg,borgCls:CUR.borgCls,
     pm:pm,ps:ps,pd:pd,tLh:tLh,tMm:tMm,ah:ahAdj,rd:rdAdj,rp:rp,
     dcCls:dcCls,dcLbl:dcLbl,
@@ -521,8 +572,23 @@ function renderResultados(ev,containerId){
     w:'<strong>⚠️ Deshidratacion leve ('+pd.toFixed(1)+'%)</strong>Perdiste entre 1-2% de tu peso. Necesitas beber mas durante el entreno.',
     d:'<strong>🔴 Deshidratacion significativa ('+pd.toFixed(1)+'%)</strong>Mas del 2% de perdida afecta seriamente tu rendimiento y salud.'};
   html+='<div class="al '+dcCls+'">'+(am[dcCls])+'</div>';
-  // Orina
-  html+='<div class="al '+ev.orina.cls+'"><strong>'+ev.orina.em+' Orina: '+ev.orina.lbl+'</strong>'+ORINA_DATA[ev.orina.n-1].rc+'</div>';
+  // Orina antes
+  if(ev.orinaAntes){
+    html+='<div class="al '+ev.orinaAntes.cls+'"><strong>'+ev.orinaAntes.em+' Orina ANTES: '+ev.orinaAntes.lbl+'</strong>'+ORINA_DATA[ev.orinaAntes.n-1].rc+'</div>';
+    if(ev.volAntes) html+='<div class="al i" style="padding:8px 14px;font-size:.72rem">💧 Volumen orina antes: <b>'+ev.volAntes+' ml</b></div>';
+  }
+  // Orina despues
+  if(ev.orinaDesp){
+    html+='<div class="al '+ev.orinaDesp.cls+'"><strong>'+ev.orinaDesp.em+' Orina DESPUES: '+ev.orinaDesp.lbl+'</strong>'+ORINA_DATA[ev.orinaDesp.n-1].rc+'</div>';
+    if(ev.volDesp) html+='<div class="al i" style="padding:8px 14px;font-size:.72rem">💧 Volumen orina despues: <b>'+ev.volDesp+' ml</b></div>';
+    // Comparacion antes vs despues
+    if(ev.orinaAntes&&ev.orinaDesp){
+      var diff=ev.orinaDesp.n-ev.orinaAntes.n;
+      var cmpCls=diff<=0?'g':diff<=2?'w':'d';
+      var cmpMsg=diff<0?'Tu hidratacion mejoro durante el entrenamiento. Excelente!':diff===0?'Mantuviste el mismo nivel de hidratacion durante el ejercicio.':diff<=2?'Tu orina se concentro un poco. Bebe mas agua en el post-entrenamiento.':'Tu orina se concentro bastante. Prioriza la rehidratacion ahora.';
+      html+='<div class="al '+cmpCls+'"><strong>📊 Comparacion antes vs despues</strong>'+cmpMsg+'</div>';
+    }
+  }
   // Plan
   html+='<div class="plan-box">'+
     '<div class="plan-title">📋 Tu plan para sesiones como esta</div>'+
@@ -554,6 +620,8 @@ function renderResultados(ev,containerId){
     if(ev.temp!==null&&ev.temp!==undefined)condHtml+='<div class="stat-row"><span class="stat-key">Temperatura</span><span class="stat-val">'+ev.temp+' °C</span></div>';
     if(ev.hum!==null&&ev.hum!==undefined)condHtml+='<div class="stat-row"><span class="stat-key">Humedad relativa</span><span class="stat-val">'+ev.hum+' %</span></div>';
     if(ev.ambiente)condHtml+='<div class="stat-row"><span class="stat-key">Ambiente</span><span class="stat-val">'+ev.ambiente+'</span></div>';
+    if(ev.volAntes)condHtml+='<div class="stat-row"><span class="stat-key">Vol. orina antes</span><span class="stat-val">'+ev.volAntes+' ml</span></div>';
+    if(ev.volDesp)condHtml+='<div class="stat-row"><span class="stat-key">Vol. orina despues</span><span class="stat-val">'+ev.volDesp+' ml</span></div>';
     condHtml+='</div>';
     html+=condHtml;
   }
@@ -593,7 +661,8 @@ function renderHistorial(){
       '</div>'+
       '<div class="hist-pills">'+
       '<span class="pill i">'+ev.tmin+' min</span>'+
-      '<span class="pill '+ev.orina.cls+'">Orina '+ev.orina.n+'/8</span>'+
+      '<span class="pill '+(ev.orinaAntes?ev.orinaAntes.cls:ev.orina?ev.orina.cls:'i')+'">Orina '+(ev.orinaAntes?ev.orinaAntes.n:ev.orina?ev.orina.n:'?')+'/8 pre</span>'+
+      (ev.orinaDesp?'<span class="pill '+ev.orinaDesp.cls+'">'+ev.orinaDesp.n+'/8 post</span>':'')+
       '<span class="pill '+ev.borgCls+'">Borg '+ev.borg+'</span>'+
       (ev.ambiente?'<span class="pill i">'+ev.ambiente.split(' ')[0]+'</span>':'')+
       '</div>'+
@@ -759,13 +828,14 @@ function renderPerfil(){
 // ── RESET ──
 function nuevaEval(){
   CUR={nombre:'',edad:null,sexo:'',deporte:'',ambiente:'',pre:null,post:null,liq:0,ori:0,tmin:null,orina:null,borg:null,borgCls:null};
-  ['inp-nombre','inp-edad','inp-pre','inp-post','inp-tmin','inp-fecha','inp-hora','inp-temp','inp-hum','inp-lugar'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
+  ['inp-nombre','inp-edad','inp-pre','inp-post','inp-tmin','inp-fecha','inp-hora','inp-temp','inp-hum','inp-lugar','inp-vol-antes','inp-vol-desp'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
   document.getElementById('inp-liq').value='0';
   document.getElementById('inp-sexo').value='';
   document.getElementById('inp-deporte').value='';
   document.getElementById('inp-amb').value='';
   document.getElementById('inp-ori').value='0';
-  document.getElementById('ori-res').innerHTML='';
+  var oriAntes=document.getElementById('ori-antes-res'); if(oriAntes)oriAntes.innerHTML='';
+  var oriDesp=document.getElementById('ori-desp-res'); if(oriDesp)oriDesp.innerHTML='';
   document.getElementById('borg-res').innerHTML='';
   document.querySelectorAll('.urine-btn').forEach(function(e){e.classList.remove('on')});
   document.querySelectorAll('.borg-btn').forEach(function(b){b.className='borg-btn'});
