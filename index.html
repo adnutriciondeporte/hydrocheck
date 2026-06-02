@@ -8,16 +8,16 @@
 <style>
 :root{--bg:#0a0e1a;--surface:#111827;--surface2:#1a2235;--border:#1e2d45;--accent:#00d4ff;--accent2:#7c3aed;--accent3:#10b981;--warn:#f59e0b;--danger:#ef4444;--text:#e2e8f0;--muted:#64748b;--shadow:0 4px 24px rgba(0,0,0,.4)}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body{font-family:DM Sans,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
 .wrap{position:relative;z-index:1;max-width:440px;margin:0 auto;padding:0 0 70px}
 .hdr{padding:20px 20px 14px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(0,212,255,.08),transparent)}
-.logo{font-family:"Syne",sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);display:flex;align-items:center;gap:8px}
+.logo{font-family:Syne,sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);display:flex;align-items:center;gap:8px}
 .logo span{color:var(--text)}
-.tag{font-size:.68rem;color:var(--muted);font-family:"DM Mono",monospace;margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
-.auth{font-size:.63rem;color:var(--accent2);font-family:"DM Mono",monospace;margin-top:2px}
+.tag{font-size:.68rem;color:var(--muted);font-family:DM Mono,monospace;margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
+.auth{font-size:.63rem;color:var(--accent2);font-family:DM Mono,monospace;margin-top:2px}
 .bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:440px;background:var(--surface);border-top:1px solid var(--border);display:flex;z-index:20;padding:6px 0}
-.bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;color:var(--muted);font-size:.55rem;font-family:"DM Mono",monospace;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;transition:color .2s}
+.bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:none;background:none;color:var(--muted);font-size:.55rem;font-family:DM Mono,monospace;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;transition:color .2s}
 .bnav-btn .ico{font-size:1.3rem}
 .bnav-btn.on{color:var(--accent)}
 .screen{display:none;padding:18px;animation:fi .3s ease}
@@ -27,33 +27,33 @@ body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(
 .steps{display:flex;gap:5px}
 .step{flex:1;height:3px;border-radius:3px;background:var(--border);transition:background .3s}
 .step.done{background:var(--accent3)}.step.active{background:var(--accent)}
-.step-lbl{text-align:center;font-family:"DM Mono",monospace;font-size:.6rem;color:var(--muted);padding:5px 0;text-transform:uppercase;letter-spacing:.05em}
+.step-lbl{text-align:center;font-family:DM Mono,monospace;font-size:.6rem;color:var(--muted);padding:5px 0;text-transform:uppercase;letter-spacing:.05em}
 .sub{display:none}.sub.on{display:block}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:12px;box-shadow:var(--shadow)}
 .card-ico{font-size:1.8rem;text-align:center;margin-bottom:6px}
-.card-title{font-family:"Syne",sans-serif;font-size:.95rem;font-weight:800;color:var(--text);text-align:center;margin-bottom:3px}
+.card-title{font-family:Syne,sans-serif;font-size:.95rem;font-weight:800;color:var(--text);text-align:center;margin-bottom:3px}
 .card-desc{font-size:.72rem;color:var(--muted);text-align:center;margin-bottom:14px;line-height:1.5}
-.ct{font-family:"Syne",sans-serif;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.ct{font-family:Syne,sans-serif;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .ct::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
 .fi{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
-.fi label{font-size:.62rem;font-family:"DM Mono",monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.fi input,.fi select{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:11px 13px;color:var(--text);font-size:.9rem;font-family:"DM Sans",sans-serif;width:100%;transition:border .2s}
+.fi label{font-size:.62rem;font-family:DM Mono,monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.fi input,.fi select{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:11px 13px;color:var(--text);font-size:.9rem;font-family:DM Sans,sans-serif;width:100%;transition:border .2s}
 .fi input:focus,.fi select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,255,.1)}
 .fi select option{background:var(--surface)}
 .fi-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.hint{font-size:.62rem;color:var(--muted);font-family:"DM Mono",monospace;margin-top:3px}
+.hint{font-size:.62rem;color:var(--muted);font-family:DM Mono,monospace;margin-top:3px}
 .big-wrap{position:relative;margin-bottom:10px}
-.big-inp{background:var(--surface2);border:2px solid var(--border);border-radius:14px;padding:14px 50px 14px 16px;color:var(--accent);font-size:1.8rem;font-family:"Syne",sans-serif;font-weight:800;width:100%;text-align:center;transition:border .2s}
+.big-inp{background:var(--surface2);border:2px solid var(--border);border-radius:14px;padding:14px 50px 14px 16px;color:var(--accent);font-size:1.8rem;font-family:Syne,sans-serif;font-weight:800;width:100%;text-align:center;transition:border .2s}
 .big-inp:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,255,.1)}
-.big-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:.68rem;color:var(--muted);font-family:"DM Mono",monospace;text-transform:uppercase}
-.btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),#0099cc);border:none;border-radius:14px;color:#0a0e1a;font-family:"Syne",sans-serif;font-size:.9rem;font-weight:800;letter-spacing:.05em;cursor:pointer;margin-top:4px;text-transform:uppercase;transition:transform .15s,box-shadow .15s}
+.big-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:.68rem;color:var(--muted);font-family:DM Mono,monospace;text-transform:uppercase}
+.btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),#0099cc);border:none;border-radius:14px;color:#0a0e1a;font-family:Syne,sans-serif;font-size:.9rem;font-weight:800;letter-spacing:.05em;cursor:pointer;margin-top:4px;text-transform:uppercase;transition:transform .15s,box-shadow .15s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,212,255,.35)}
 .btn.sec{background:transparent;border:1px solid var(--border);color:var(--muted);box-shadow:none;margin-top:6px}
 .btn.sec:hover{border-color:var(--muted);color:var(--text);transform:none}
 .btn.red{background:linear-gradient(135deg,var(--danger),#cc0000);color:white}
 .borg-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:8px 0}
-.borg-btn{padding:9px 3px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);color:var(--muted);font-size:.62rem;font-family:"DM Mono",monospace;cursor:pointer;text-align:center;transition:all .2s;line-height:1.3}
-.borg-btn b{display:block;font-size:.95rem;font-family:"Syne",sans-serif;color:var(--text)}
+.borg-btn{padding:9px 3px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);color:var(--muted);font-size:.62rem;font-family:DM Mono,monospace;cursor:pointer;text-align:center;transition:all .2s;line-height:1.3}
+.borg-btn b{display:block;font-size:.95rem;font-family:Syne,sans-serif;color:var(--text)}
 .borg-btn.on.g{background:rgba(16,185,129,.15);border-color:var(--accent3);color:var(--accent3)}
 .borg-btn.on.g b{color:var(--accent3)}
 .borg-btn.on.w{background:rgba(245,158,11,.15);border-color:var(--warn);color:var(--warn)}
@@ -64,32 +64,32 @@ body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(
 .ubtn{border-radius:8px;height:44px;cursor:pointer;border:3px solid transparent;transition:all .15s;position:relative}
 .ubtn:hover{transform:scale(1.06)}
 .ubtn.on{border-color:white;transform:scale(1.1)}
-.unum{position:absolute;bottom:2px;right:4px;font-size:.55rem;font-family:"DM Mono",monospace;font-weight:700;color:rgba(0,0,0,.4)}
+.unum{position:absolute;bottom:2px;right:4px;font-size:.55rem;font-family:DM Mono,monospace;font-weight:700;color:rgba(0,0,0,.4)}
 .unum.dk{color:rgba(255,255,255,.6)}
 .ulbl{display:flex;justify-content:space-between;margin-top:3px}
-.ulbl span{font-size:.55rem;font-family:"DM Mono",monospace}
-.unums{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;text-align:center;font-size:.5rem;color:var(--muted);font-family:"DM Mono",monospace;margin-top:2px}
+.ulbl span{font-size:.55rem;font-family:DM Mono,monospace}
+.unums{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;text-align:center;font-size:.5rem;color:var(--muted);font-family:DM Mono,monospace;margin-top:2px}
 .al{border-radius:12px;padding:12px 14px;margin-bottom:10px;font-size:.77rem;line-height:1.6;border:1px solid}
 .al.g{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.25);color:#6ee7b7}
 .al.w{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.25);color:#fcd34d}
 .al.d{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.25);color:#fca5a5}
 .al.i{background:rgba(0,212,255,.07);border-color:rgba(0,212,255,.2);color:#7dd3fc}
-.al strong{display:block;font-family:"Syne",sans-serif;font-weight:700;margin-bottom:3px}
+.al strong{display:block;font-family:Syne,sans-serif;font-weight:700;margin-bottom:3px}
 .mg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
 .m{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center}
 .m-top{height:3px;border-radius:3px;margin-bottom:8px}
 .m-top.a{background:var(--accent)}.m-top.w{background:var(--warn)}.m-top.d{background:var(--danger)}.m-top.g{background:var(--accent3)}
-.m-val{font-family:"Syne",sans-serif;font-size:1.3rem;font-weight:800;color:var(--accent);line-height:1}
+.m-val{font-family:Syne,sans-serif;font-size:1.3rem;font-weight:800;color:var(--accent);line-height:1}
 .m-val.w{color:var(--warn)}.m-val.d{color:var(--danger)}.m-val.g{color:var(--accent3)}
-.m-lbl{font-size:.58rem;color:var(--muted);font-family:"DM Mono",monospace;text-transform:uppercase;letter-spacing:.05em}
+.m-lbl{font-size:.58rem;color:var(--muted);font-family:DM Mono,monospace;text-transform:uppercase;letter-spacing:.05em}
 .m-sub{font-size:.62rem;color:var(--muted);margin-top:3px}
 .plan-box{background:linear-gradient(135deg,rgba(0,212,255,.09),rgba(124,58,237,.09));border:1px solid rgba(0,212,255,.25);border-radius:16px;padding:16px;margin-bottom:12px}
-.plan-title{font-family:"Syne",sans-serif;font-size:.82rem;font-weight:800;color:var(--accent);margin-bottom:12px;text-align:center}
+.plan-title{font-family:Syne,sans-serif;font-size:.82rem;font-weight:800;color:var(--accent);margin-bottom:12px;text-align:center}
 .plan-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(0,212,255,.08)}
 .plan-item:last-child{border-bottom:none}
 .plan-em{font-size:1.3rem;flex-shrink:0}
-.plan-k{font-size:.6rem;color:var(--muted);font-family:"DM Mono",monospace;text-transform:uppercase}
-.plan-v{font-family:"Syne",sans-serif;font-size:1rem;font-weight:800;color:var(--accent)}
+.plan-k{font-size:.6rem;color:var(--muted);font-family:DM Mono,monospace;text-transform:uppercase}
+.plan-v{font-family:Syne,sans-serif;font-size:1rem;font-weight:800;color:var(--accent)}
 .plan-v.w{color:var(--warn)}.plan-v.g{color:var(--accent3)}
 .plan-s{font-size:.62rem;color:var(--muted);margin-top:1px}
 .rec-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(30,45,69,.5);font-size:.76rem;line-height:1.5}
@@ -98,35 +98,35 @@ body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(
 .rec-txt b{color:var(--accent)}
 .hcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;transition:border .2s}
 .hcard:hover{border-color:var(--accent)}
-.hdate{font-size:.62rem;color:var(--muted);font-family:"DM Mono",monospace}
-.hsport{font-family:"Syne",sans-serif;font-size:.85rem;font-weight:700;color:var(--text)}
+.hdate{font-size:.62rem;color:var(--muted);font-family:DM Mono,monospace}
+.hsport{font-family:Syne,sans-serif;font-size:.85rem;font-weight:700;color:var(--text)}
 .hpills{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
-.pill{display:inline-block;padding:2px 7px;border-radius:20px;font-size:.58rem;font-family:"DM Mono",monospace;font-weight:700;text-transform:uppercase}
+.pill{display:inline-block;padding:2px 7px;border-radius:20px;font-size:.58rem;font-family:DM Mono,monospace;font-weight:700;text-transform:uppercase}
 .pill.g{background:rgba(16,185,129,.15);color:#6ee7b7;border:1px solid rgba(16,185,129,.3)}
 .pill.w{background:rgba(245,158,11,.15);color:#fcd34d;border:1px solid rgba(245,158,11,.3)}
 .pill.d{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3)}
 .pill.i{background:rgba(0,212,255,.1);color:#7dd3fc;border:1px solid rgba(0,212,255,.25)}
 .hstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
 .hstat{text-align:center}
-.hstat-v{font-family:"Syne",sans-serif;font-size:1rem;font-weight:800;color:var(--accent)}
-.hstat-l{font-size:.55rem;color:var(--muted);font-family:"DM Mono",monospace;text-transform:uppercase}
+.hstat-v{font-family:Syne,sans-serif;font-size:1rem;font-weight:800;color:var(--accent)}
+.hstat-l{font-size:.55rem;color:var(--muted);font-family:DM Mono,monospace;text-transform:uppercase}
 .empty{text-align:center;padding:40px 20px;color:var(--muted)}
 .empty-ico{font-size:3rem;margin-bottom:12px}
-.empty-t{font-family:"Syne",sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px}
+.empty-t{font-family:Syne,sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px}
 .cwrap{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px}
-.ctitle{font-family:"DM Mono",monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:14px}
-.pav{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;font-family:"Syne",sans-serif;font-weight:800;color:#0a0e1a}
-.pname{font-family:"Syne",sans-serif;font-size:1.2rem;font-weight:800;text-align:center;color:var(--text)}
-.psport{font-size:.72rem;color:var(--muted);text-align:center;font-family:"DM Mono",monospace;margin-top:3px}
+.ctitle{font-family:DM Mono,monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:14px}
+.pav{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;font-family:Syne,sans-serif;font-weight:800;color:#0a0e1a}
+.pname{font-family:Syne,sans-serif;font-size:1.2rem;font-weight:800;text-align:center;color:var(--text)}
+.psport{font-size:.72rem;color:var(--muted);text-align:center;font-family:DM Mono,monospace;margin-top:3px}
 .srow{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(30,45,69,.5);font-size:.78rem}
 .srow:last-child{border-bottom:none}
-.sk{color:var(--muted);font-family:"DM Mono",monospace;font-size:.65rem;text-transform:uppercase}
+.sk{color:var(--muted);font-family:DM Mono,monospace;font-size:.65rem;text-transform:uppercase}
 .sv{color:var(--text);font-weight:600}
 .firma{border-top:1px solid var(--border);margin-top:16px;padding-top:14px;text-align:center}
 .firma-line{width:140px;height:1px;background:var(--muted);margin:22px auto 6px}
-.firma-n{font-family:"Syne",sans-serif;font-size:.82rem;font-weight:700;color:var(--text)}
-.firma-t{font-size:.6rem;color:var(--muted);font-family:"DM Mono",monospace;margin-top:2px}
-.ref-box{background:rgba(0,212,255,.03);border:1px solid rgba(0,212,255,.1);border-radius:10px;padding:11px 13px;margin-top:12px;font-size:.58rem;color:var(--muted);line-height:1.8;font-family:"DM Mono",monospace}
+.firma-n{font-family:Syne,sans-serif;font-size:.82rem;font-weight:700;color:var(--text)}
+.firma-t{font-size:.6rem;color:var(--muted);font-family:DM Mono,monospace;margin-top:2px}
+.ref-box{background:rgba(0,212,255,.03);border:1px solid rgba(0,212,255,.1);border-radius:10px;padding:11px 13px;margin-top:12px;font-size:.58rem;color:var(--muted);line-height:1.8;font-family:DM Mono,monospace}
 .ref-box b{color:var(--accent2);display:block;margin-bottom:5px;font-size:.62rem;text-transform:uppercase;letter-spacing:.06em}
 </style>
 </head>
@@ -551,107 +551,114 @@ function calcular(){
 // ── RENDER RESULTADOS ──
 function renderRes(ev,cid){
   var pd=ev.pd,pm=ev.pm,dc=ev.dcCls;
-  var h="";
+  var h='';
+  var sty='style=';
 
   // Header
-  h+="<div style='text-align:center;padding:8px 0 14px'>";
-  h+="<div style='font-family:"Syne",sans-serif;font-size:1.05rem;font-weight:800;color:var(--text)'>"+(ev.nombre?"Hola, "+ev.nombre+"! Aqui estan tus resultados:":"Tus resultados")+"</div>";
-  h+="<div style='font-size:.68rem;color:var(--muted);margin-top:3px;font-family:"DM Mono",monospace'>"+ev.deporte+(ev.ambiente?" &middot; "+ev.ambiente:"")+"</div>";
-  if(ev.lugar)h+="<div style='font-size:.65rem;color:var(--muted);font-family:"DM Mono",monospace;margin-top:2px'>&#x1F4CD; "+ev.lugar+"</div>";
-  if(ev.fechaSesion||ev.temp)h+="<div style='font-size:.65rem;color:var(--muted);font-family:"DM Mono",monospace;margin-top:2px'>"+(ev.fechaSesion?"&#x1F4C5; "+ev.fechaSesion:"")+( ev.horaSesion?" "+ev.horaSesion:"")+( ev.temp?" &middot; &#x1F321;&#xFE0F; "+ev.temp+"&deg;C":"")+( ev.hum?" &middot; "+ev.hum+"%":"")+"</div>";
-  h+="</div>";
+  h+='<div style="text-align:center;padding:8px 0 14px">';
+  h+='<div style="font-family:Syne,sans-serif;font-size:1.05rem;font-weight:800;color:var(--text)">'+(ev.nombre?'Hola, '+ev.nombre+'! Aqui estan tus resultados:':'Tus resultados')+'</div>';
+  h+='<div style="font-size:.68rem;color:var(--muted);margin-top:3px;font-family:DM Mono,monospace">'+ev.deporte+(ev.ambiente?' &middot; '+ev.ambiente:'')+'</div>';
+  if(ev.lugar)h+='<div style="font-size:.65rem;color:var(--muted);font-family:DM Mono,monospace;margin-top:2px">&#x1F4CD; '+ev.lugar+'</div>';
+  if(ev.fechaSesion||ev.temp){
+    var infoLine=(ev.fechaSesion?'&#x1F4C5; '+ev.fechaSesion:'')+(ev.horaSesion?' '+ev.horaSesion:'')+(ev.temp?' &middot; '+ev.temp+'&#xB0;C':'')+(ev.hum?' &middot; '+ev.hum+'%':'');
+    h+='<div style="font-size:.65rem;color:var(--muted);font-family:DM Mono,monospace;margin-top:2px">'+infoLine+'</div>';
+  }
+  h+='</div>';
 
   // Metricas
-  h+="<div class='mg'>";
-  h+="<div class='m'><div class='m-top "+dc+"'></div><div class='m-lbl'>Deshidratacion</div><div class='m-val "+dc+"'>"+pd.toFixed(1)+"%</div><div class='m-sub'><span class='pill "+dc+"'>"+ev.dcLbl+"</span></div></div>";
-  h+="<div class='m'><div class='m-top a'></div><div class='m-lbl'>Sudor perdido</div><div class='m-val'>"+ev.ps.toFixed(2)+" L</div><div class='m-sub'>"+pm.toFixed(2)+" kg masa</div></div>";
-  h+="<div class='m'><div class='m-top w'></div><div class='m-lbl'>Tasa sudoracion</div><div class='m-val w'>"+Math.round(ev.tLh*1000)+" ml/h</div><div class='m-sub'>"+ev.tMm.toFixed(1)+" ml/min</div></div>";
-  h+="<div class='m'><div class='m-top g'></div><div class='m-lbl'>Duracion</div><div class='m-val g'>"+ev.tmin+" min</div><div class='m-sub'>Borg "+ev.borg+"/20</div></div>";
-  h+="</div>";
+  h+='<div class="mg">';
+  h+='<div class="m"><div class="m-top '+dc+'"></div><div class="m-lbl">Deshidratacion</div><div class="m-val '+dc+'">'+pd.toFixed(1)+'%</div><div class="m-sub"><span class="pill '+dc+'">'+ev.dcLbl+'</span></div></div>';
+  h+='<div class="m"><div class="m-top a"></div><div class="m-lbl">Sudor perdido</div><div class="m-val">'+ev.ps.toFixed(2)+' L</div><div class="m-sub">'+pm.toFixed(2)+' kg masa</div></div>';
+  h+='<div class="m"><div class="m-top w"></div><div class="m-lbl">Tasa sudoracion</div><div class="m-val w">'+Math.round(ev.tLh*1000)+' ml/h</div><div class="m-sub">'+ev.tMm.toFixed(1)+' ml/min</div></div>';
+  h+='<div class="m"><div class="m-top g"></div><div class="m-lbl">Duracion</div><div class="m-val g">'+ev.tmin+' min</div><div class="m-sub">Borg '+ev.borg+'/20</div></div>';
+  h+='</div>';
 
   // Alerta deshidratacion
-  var am={
-    g:"<strong>&#x2705; Buena hidratacion ("+pd.toFixed(1)+"%)</strong>Perdida menor al 1%. Te hidrataste bien durante el entrenamiento. Sigue asi!",
-    w:"<strong>&#x26A0;&#xFE0F; Deshidratacion leve ("+pd.toFixed(1)+"%)</strong>Perdiste entre 1-2% de tu peso. Necesitas beber mas durante el entrenamiento.",
-    d:"<strong>&#x1F534; Deshidratacion significativa ("+pd.toFixed(1)+"%)</strong>Mas del 2% de perdida afecta seriamente tu rendimiento y salud. Revisa tu estrategia."
+  var msgs={
+    g:'<strong>&#x2705; Buena hidratacion ('+pd.toFixed(1)+'%)</strong>Perdida menor al 1%. Te hidrataste bien. Sigue asi!',
+    w:'<strong>&#x26A0;&#xFE0F; Deshidratacion leve ('+pd.toFixed(1)+'%)</strong>Perdiste entre 1-2% de tu peso. Necesitas beber mas durante el entrenamiento.',
+    d:'<strong>&#x1F534; Deshidratacion significativa ('+pd.toFixed(1)+'%)</strong>Mas del 2% afecta seriamente tu rendimiento y salud. Revisa tu estrategia.'
   };
-  h+="<div class='al "+dc+"'>"+(am[dc]||am.d)+"</div>";
+  h+='<div class="al '+dc+'">'+(msgs[dc]||msgs.d)+'</div>';
 
   // Orina PRE
   if(ev.orinaPre){
-    h+="<div class='al "+ev.orinaPre.cls+"'><strong>"+ev.orinaPre.em+" Orina ANTES: "+ev.orinaPre.lbl+"</strong>"+OD[ev.orinaPre.n-1].rc+"</div>";
+    h+='<div class="al '+ev.orinaPre.cls+'"><strong>'+ev.orinaPre.em+' Orina ANTES: '+ev.orinaPre.lbl+'</strong>'+OD[ev.orinaPre.n-1].rc+'</div>';
   }
 
   // Orina POST + comparacion
   if(ev.orinaPost){
-    h+="<div class='al "+ev.orinaPost.cls+"'><strong>"+ev.orinaPost.em+" Orina DESPUES: "+ev.orinaPost.lbl+"</strong>"+OD[ev.orinaPost.n-1].rc+"</div>";
+    h+='<div class="al '+ev.orinaPost.cls+'"><strong>'+ev.orinaPost.em+' Orina DESPUES: '+ev.orinaPost.lbl+'</strong>'+OD[ev.orinaPost.n-1].rc+'</div>';
     if(ev.orinaPre){
       var diff=ev.orinaPost.n-ev.orinaPre.n;
-      var cc=diff<=0?"g":diff<=2?"w":"d";
-      var cm=diff<0?"Tu hidratacion mejoro durante el entrenamiento. Excelente estrategia de hidratacion (Armstrong et al., 1994).":
-              diff===0?"Mantuviste el mismo nivel de hidratacion. Buena constancia.":
-              diff<=2?"Tu orina se concentro levemente. Aumenta la ingesta de agua durante la sesion.":
-              "Tu orina se concentro bastante. Revisa urgentemente tu estrategia de hidratacion.";
-      h+="<div class='al "+cc+"'><strong>&#x1F4CA; Comparacion PRE vs POST</strong>"+cm+"</div>";
+      var cc=diff<=0?'g':diff<=2?'w':'d';
+      var cm=diff<0?'Tu hidratacion mejoro durante el entrenamiento. Excelente estrategia!':
+              diff===0?'Mantuviste el mismo nivel de hidratacion. Buena constancia.':
+              diff<=2?'Tu orina se concentro levemente. Bebe mas agua durante la sesion.':
+              'Tu orina se concentro bastante. Revisa tu estrategia de hidratacion urgentemente.';
+      h+='<div class="al '+cc+'"><strong>&#x1F4CA; Comparacion PRE vs POST</strong>'+cm+' (Armstrong et al., 1994)</div>';
     }
   }
 
   // Orina durante
   if(ev.volOriML>0){
-    h+="<div class='al i' style='padding:9px 14px;font-size:.74rem'>&#x1F6BD; Orina durante el entrenamiento: <b>"+ev.volOriML+" ml</b> &mdash; considerado en el calculo de perdida de sudor.</div>";
+    h+='<div class="al i" style="padding:9px 14px;font-size:.74rem">&#x1F6BD; Orina durante el entrenamiento: <b>'+ev.volOriML+' ml</b> &mdash; descontado del calculo de perdida de sudor.</div>';
   }
 
   // PLAN
-  h+="<div class='plan-box'>";
-  h+="<div class='plan-title'>&#x1F4CB; Para sesiones similares a esta, necesitas:</div>";
-  h+="<div class='plan-item'><span class='plan-em'>&#x1F4A7;</span><div><div class='plan-k'>Agua por hora</div><div class='plan-v'>"+ev.ah+" ml/hora</div><div class='plan-s'>"+ev.rd+" ml cada 15 minutos</div></div></div>";
-  h+="<div class='plan-item'><span class='plan-em'>&#x1F30A;</span><div><div class='plan-k'>Reponer despues</div><div class='plan-v w'>"+ev.rp.toFixed(2)+" L</div><div class='plan-s'>En las proximas 2 horas (ACSM, 2007)</div></div></div>";
-  h+="<div class='plan-item'><span class='plan-em'>&#x1F9C2;</span><div><div class='plan-k'>Sodio post-entrenamiento</div><div class='plan-v g'>Incluir en comida</div><div class='plan-s'>Sopas caseras, pan con palta y sal, agregar sal a preparaciones</div></div></div>";
-  h+="</div>";
+  h+='<div class="plan-box">';
+  h+='<div class="plan-title">&#x1F4CB; Para sesiones similares a esta, necesitas:</div>';
+  h+='<div class="plan-item"><span class="plan-em">&#x1F4A7;</span><div><div class="plan-k">Agua por hora</div><div class="plan-v">'+ev.ah+' ml/hora</div><div class="plan-s">'+ev.rd+' ml cada 15 minutos</div></div></div>';
+  h+='<div class="plan-item"><span class="plan-em">&#x1F30A;</span><div><div class="plan-k">Reponer despues</div><div class="plan-v w">'+ev.rp.toFixed(2)+' L</div><div class="plan-s">En las proximas 2 horas (ACSM, 2007)</div></div></div>';
+  h+='<div class="plan-item"><span class="plan-em">&#x1F9C2;</span><div><div class="plan-k">Sodio post-entrenamiento</div><div class="plan-v g">Incluir en comida</div><div class="plan-s">Sopas caseras, pan con palta y sal, agregar sal a preparaciones</div></div></div>';
+  h+='</div>';
 
   // Recomendaciones
-  h+="<div class='card'><div class='ct'>Recomendaciones</div>";
-  var antes="Comienza siempre bien hidratado/a. Bebe 400-600 ml de agua en las 2 horas previas al entrenamiento (Sawka et al., 2007). Apunta a orina color 2-4 antes de comenzar.";
-  if(ev.orinaPre&&ev.orinaPre.n>=5)antes="Tu orina PRE indica deshidratacion. Bebe al menos 500 ml de agua 60 min antes de comenzar. Apunta a color 2-4 como señal de hidratacion optima (Armstrong et al., 1994).";
-  if(ev.orinaPre&&ev.orinaPre.n>=7)antes="Nivel de deshidratacion importante antes del ejercicio. Rehidratate primero y considera reducir la intensidad. La orina debe ser color 2-4 antes de entrenar con seguridad.";
-  h+="<div class='rec-item'><span class='rec-ico'>&#x1F305;</span><span class='rec-txt'><b>Antes:</b> "+antes+"</span></div>";
-  var dur="Bebe <b>"+ev.ah+" ml/hora</b> ("+ev.rd+" ml cada 15 min). No esperes a tener sed &mdash; cuando aparece la sed ya existe un 1-2% de deshidratacion (Cheuvront & Kenefick, 2014).";
-  if(ev.borg>=17)dur="Con intensidad alta (Borg "+ev.borg+"), tu tasa de sudoracion aumenta. Bebe <b>"+ev.ah+" ml/hora</b> y considera bebida isotonica si la sesion supera 60 min (Thomas et al., 2016).";
-  if(ev.ambiente&&ev.ambiente.indexOf("sol directo")>-1)dur="Con sol directo la sudoracion puede aumentar hasta 15% mas. Bebe <b>"+ev.ah+" ml/hora</b> y prioriza bebida con sodio (Maughan & Shirreffs, 2008).";
-  h+="<div class='rec-item'><span class='rec-ico'>&#x1F3C3;</span><span class='rec-txt'><b>Durante:</b> "+dur+"</span></div>";
-  h+="<div class='rec-item'><span class='rec-ico'>&#x1F30A;</span><span class='rec-txt'><b>Despues:</b> Repone <b>"+ev.rp.toFixed(2)+" L</b> en las proximas 2 horas. Equivale a "+Math.ceil(ev.rp/0.25)+" vasos. La ACSM recomienda reponer el 150% de la masa perdida (Sawka et al., 2007).</span></div>";
-  h+="<div class='rec-item'><span class='rec-ico'>&#x1F37D;&#xFE0F;</span><span class='rec-txt'><b>Sodio post-entrenamiento:</b> Incluye sodio en tu comida: sopas caseras con sal, pan con palta y sal, o agrega sal a tus preparaciones. El sodio facilita la reabsorcion de agua y acelera la recuperacion (Shirreffs & Sawka, 2011).</span></div>";
-  if(ev.borg>=15)h+="<div class='rec-item'><span class='rec-ico'>&#x26A1;</span><span class='rec-txt'><b>Alta intensidad (Borg "+ev.borg+"):</b> Considera bebida isotonica si superas 60 min a esta intensidad. Aporta sodio y carbohidratos para mantener el rendimiento.</span></div>";
-  h+="</div>";
+  h+='<div class="card"><div class="ct">Recomendaciones</div>';
+  var antes='Comienza siempre bien hidratado/a. Bebe 400-600 ml de agua en las 2 horas previas al entrenamiento (Sawka et al., 2007). Apunta a orina color 2-4 antes de comenzar.';
+  if(ev.orinaPre&&ev.orinaPre.n>=5)antes='Tu orina PRE indica deshidratacion. Bebe al menos 500 ml 60 min antes de comenzar. Apunta a color 2-4 como señal de hidratacion optima (Armstrong et al., 1994).';
+  if(ev.orinaPre&&ev.orinaPre.n>=7)antes='Nivel de deshidratacion importante antes del ejercicio. Rehidratate primero y considera reducir la intensidad. La orina debe ser color 2-4 antes de entrenar con seguridad.';
+  h+='<div class="rec-item"><span class="rec-ico">&#x1F305;</span><span class="rec-txt"><b>Antes:</b> '+antes+'</span></div>';
 
-  // Condiciones de sesion
-  if(ev.fechaSesion||ev.temp||ev.hum||ev.lugar||ev.volOriML>0){
-    h+="<div class='card'><div class='ct'>Condiciones de la sesion</div>";
-    if(ev.fechaSesion)h+="<div class='srow'><span class='sk'>Fecha / Hora</span><span class='sv'>"+ev.fechaSesion+(ev.horaSesion?" "+ev.horaSesion:"")+"</span></div>";
-    if(ev.lugar)h+="<div class='srow'><span class='sk'>Lugar</span><span class='sv'>"+ev.lugar+"</span></div>";
-    if(ev.temp!==null&&ev.temp!==undefined)h+="<div class='srow'><span class='sk'>Temperatura</span><span class='sv'>"+ev.temp+" &deg;C</span></div>";
-    if(ev.hum!==null&&ev.hum!==undefined)h+="<div class='srow'><span class='sk'>Humedad</span><span class='sv'>"+ev.hum+" %</span></div>";
-    if(ev.ambiente)h+="<div class='srow'><span class='sk'>Ambiente</span><span class='sv'>"+ev.ambiente+"</span></div>";
-    if(ev.orinaPre)h+="<div class='srow'><span class='sk'>Orina PRE</span><span class='sv'>"+ev.orinaPre.n+"/8 &mdash; "+ev.orinaPre.lbl+"</span></div>";
-    if(ev.orinaPost)h+="<div class='srow'><span class='sk'>Orina POST</span><span class='sv'>"+ev.orinaPost.n+"/8 &mdash; "+ev.orinaPost.lbl+"</span></div>";
-    if(ev.volOriML>0)h+="<div class='srow'><span class='sk'>Orina durante</span><span class='sv'>"+ev.volOriML+" ml</span></div>";
-    h+="</div>";
+  var dur='Bebe <b>'+ev.ah+' ml/hora</b> ('+ev.rd+' ml cada 15 min). No esperes a tener sed &mdash; cuando aparece la sed ya existe un 1-2% de deshidratacion (Cheuvront &amp; Kenefick, 2014).';
+  if(ev.borg>=17)dur='Con intensidad alta (Borg '+ev.borg+'), tu tasa de sudoracion aumenta. Bebe <b>'+ev.ah+' ml/hora</b> y considera bebida isotonica si la sesion supera 60 min (Thomas et al., 2016).';
+  if(ev.ambiente&&ev.ambiente.indexOf('sol directo')>-1)dur='Con sol directo la sudoracion puede aumentar hasta 15% mas. Bebe <b>'+ev.ah+' ml/hora</b> y prioriza bebida con sodio (Maughan &amp; Shirreffs, 2008).';
+  h+='<div class="rec-item"><span class="rec-ico">&#x1F3C3;</span><span class="rec-txt"><b>Durante:</b> '+dur+'</span></div>';
+
+  h+='<div class="rec-item"><span class="rec-ico">&#x1F30A;</span><span class="rec-txt"><b>Despues:</b> Repone <b>'+ev.rp.toFixed(2)+' L</b> en las proximas 2 horas. Equivale a '+Math.ceil(ev.rp/0.25)+' vasos. La ACSM recomienda reponer el 150% de la masa perdida (Sawka et al., 2007).</span></div>';
+  h+='<div class="rec-item"><span class="rec-ico">&#x1F37D;&#xFE0F;</span><span class="rec-txt"><b>Sodio post-entrenamiento:</b> Incluye sodio en tu comida: sopas caseras con sal, pan con palta y sal, o agrega sal a tus preparaciones. El sodio facilita la reabsorcion de agua y acelera la recuperacion (Shirreffs &amp; Sawka, 2011).</span></div>';
+  if(ev.borg>=15)h+='<div class="rec-item"><span class="rec-ico">&#x26A1;</span><span class="rec-txt"><b>Alta intensidad (Borg '+ev.borg+'):</b> Considera bebida isotonica si superas 60 min a esta intensidad. Aporta sodio y carbohidratos para mantener el rendimiento.</span></div>';
+  h+='</div>';
+
+  // Condiciones
+  var hasCond=ev.fechaSesion||ev.temp||ev.hum||ev.lugar||ev.volOriML>0||ev.orinaPre||ev.orinaPost;
+  if(hasCond){
+    h+='<div class="card"><div class="ct">Condiciones de la sesion</div>';
+    if(ev.fechaSesion)h+='<div class="srow"><span class="sk">Fecha / Hora</span><span class="sv">'+ev.fechaSesion+(ev.horaSesion?' '+ev.horaSesion:'')+'</span></div>';
+    if(ev.lugar)h+='<div class="srow"><span class="sk">Lugar</span><span class="sv">'+ev.lugar+'</span></div>';
+    if(ev.temp!==null&&ev.temp!==undefined)h+='<div class="srow"><span class="sk">Temperatura</span><span class="sv">'+ev.temp+' &deg;C</span></div>';
+    if(ev.hum!==null&&ev.hum!==undefined)h+='<div class="srow"><span class="sk">Humedad</span><span class="sv">'+ev.hum+' %</span></div>';
+    if(ev.ambiente)h+='<div class="srow"><span class="sk">Ambiente</span><span class="sv">'+ev.ambiente+'</span></div>';
+    if(ev.orinaPre)h+='<div class="srow"><span class="sk">Orina PRE</span><span class="sv">'+ev.orinaPre.n+'/8 &mdash; '+ev.orinaPre.lbl+'</span></div>';
+    if(ev.orinaPost)h+='<div class="srow"><span class="sk">Orina POST</span><span class="sv">'+ev.orinaPost.n+'/8 &mdash; '+ev.orinaPost.lbl+'</span></div>';
+    if(ev.volOriML>0)h+='<div class="srow"><span class="sk">Orina durante</span><span class="sv">'+ev.volOriML+' ml</span></div>';
+    h+='</div>';
   }
 
   // Referencias
-  h+="<div class='ref-box'><b>Referencias bibliograficas</b>";
-  h+="1. Sawka MN et al. (2007). ACSM: Exercise and fluid replacement. Med Sci Sports Exerc, 39(2), 377-390.<br>";
-  h+="2. Armstrong LE et al. (1994). Urinary indices of hydration status. Int J Sport Nutr, 4(3), 265-279.<br>";
-  h+="3. Cheuvront SN & Kenefick RW (2014). Dehydration: physiology, assessment, and performance. Compr Physiol, 4(1), 257-285.<br>";
-  h+="4. Maughan RJ & Shirreffs SM (2008). Individual hydration strategies for athletes. Int J Sport Nutr Exerc Metab, 18(5), 457-472.<br>";
-  h+="5. Shirreffs SM & Sawka MN (2011). Fluid and electrolyte needs for training and competition. J Sports Sci, 29(S1), S39-S46.<br>";
-  h+="6. Thomas DT et al. (2016). Academy of Nutrition and Dietetics: Nutrition and Athletic Performance. J Acad Nutr Diet, 116(3), 501-528.<br>";
-  h+="7. Borg G (1982). Psychophysical bases of perceived exertion. Med Sci Sports Exerc, 14(5), 377-381.";
-  h+="</div>";
+  h+='<div class="ref-box"><b>Referencias bibliograficas</b>';
+  h+='1. Sawka MN et al. (2007). ACSM: Exercise and fluid replacement. Med Sci Sports Exerc, 39(2), 377-390.<br>';
+  h+='2. Armstrong LE et al. (1994). Urinary indices of hydration status. Int J Sport Nutr, 4(3), 265-279.<br>';
+  h+='3. Cheuvront SN &amp; Kenefick RW (2014). Dehydration: physiology, assessment. Compr Physiol, 4(1), 257-285.<br>';
+  h+='4. Maughan RJ &amp; Shirreffs SM (2008). Individual hydration strategies. Int J Sport Nutr Exerc Metab, 18(5), 457-472.<br>';
+  h+='5. Shirreffs SM &amp; Sawka MN (2011). Fluid and electrolyte needs. J Sports Sci, 29(S1), S39-S46.<br>';
+  h+='6. Thomas DT et al. (2016). Nutrition and Athletic Performance. J Acad Nutr Diet, 116(3), 501-528.<br>';
+  h+='7. Borg G (1982). Psychophysical bases of perceived exertion. Med Sci Sports Exerc, 14(5), 377-381.';
+  h+='</div>';
 
   // Firma
-  var hoy=new Date(ev.fecha).toLocaleDateString("es-CL",{year:"numeric",month:"long",day:"numeric"});
-  h+="<div class='firma'><div style='font-size:.6rem;color:var(--muted);font-family:"DM Mono",monospace'>"+hoy+"</div><div class='firma-line'></div><div class='firma-n'>Daniela Reyes Olavarria</div><div class='firma-t'>Nutricionista Deportiva</div><div class='firma-t' style='margin-top:2px'>HydroCheck &middot; Control de Hidratacion para Deportistas</div></div>";
+  var hoy=new Date(ev.fecha).toLocaleDateString('es-CL',{year:'numeric',month:'long',day:'numeric'});
+  h+='<div class="firma"><div style="font-size:.6rem;color:var(--muted);font-family:DM Mono,monospace">'+hoy+'</div><div class="firma-line"></div><div class="firma-n">Daniela Reyes Olavarria</div><div class="firma-t">Nutricionista Deportiva</div><div class="firma-t" style="margin-top:2px">HydroCheck &middot; Control de Hidratacion para Deportistas</div></div>';
 
   document.getElementById(cid).innerHTML=h;
 }
