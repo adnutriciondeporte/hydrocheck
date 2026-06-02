@@ -266,68 +266,85 @@ canvas{width:100%!important;border-radius:6px}
 
   <!-- SUB 3: ORINA + BORG -->
   <div class="sub" id="sub3" style="padding-top:14px">
+
+    <!-- ORINA DURANTE -->
     <div class="card">
-      <div class="card-ico">🌡️</div>
-      <div class="card-title">Color de tu orina</div>
-
-      <!-- ANTES -->
-      <div style="font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;color:var(--accent);margin-bottom:6px">🌅 ANTES de entrenar</div>
-      <div class="card-desc" style="text-align:left;margin-bottom:10px">Mira tu primera orina del dia o antes de comenzar</div>
-      <div class="urine-grid">
-        <div class="urine-btn" style="background:#FFFF99" onclick="selOrinaAntes(1)"><span class="urine-num">1</span></div>
-        <div class="urine-btn" style="background:#FFFF44" onclick="selOrinaAntes(2)"><span class="urine-num">2</span></div>
-        <div class="urine-btn" style="background:#FFE135" onclick="selOrinaAntes(3)"><span class="urine-num">3</span></div>
-        <div class="urine-btn" style="background:#FFCC00" onclick="selOrinaAntes(4)"><span class="urine-num">4</span></div>
-        <div class="urine-btn" style="background:#FFA500" onclick="selOrinaAntes(5)"><span class="urine-num dk">5</span></div>
-        <div class="urine-btn" style="background:#FF8C00" onclick="selOrinaAntes(6)"><span class="urine-num dk">6</span></div>
-        <div class="urine-btn" style="background:#CC6600" onclick="selOrinaAntes(7)"><span class="urine-num dk">7</span></div>
-        <div class="urine-btn" style="background:#8B4513" onclick="selOrinaAntes(8)"><span class="urine-num dk">8</span></div>
+      <div class="card-ico">🚽</div>
+      <div class="card-title">Orina durante el entrenamiento</div>
+      <div class="card-desc">¿Fuiste al baño mientras entrenabas?</div>
+      <div class="fi">
+        <label>¿Fuiste al baño durante el entrenamiento?</label>
+        <select id="inp-ori-select" onchange="toggleVolOrina()">
+          <option value="0">No fui al baño</option>
+          <option value="0.15">Sí, 1 vez (estimado ~150 ml)</option>
+          <option value="0.30">Sí, 2 veces (estimado ~300 ml)</option>
+          <option value="0.45">Sí, 3 o más veces (estimado ~450 ml)</option>
+          <option value="custom">Sí, quiero ingresar el volumen exacto</option>
+        </select>
       </div>
-      <div style="display:flex;justify-content:space-between;margin-top:3px">
-        <span style="font-size:.55rem;color:var(--accent3);font-family:'DM Mono',monospace">Bien hidratado</span>
-        <span style="font-size:.55rem;color:var(--danger);font-family:'DM Mono',monospace">Muy deshidratado</span>
-      </div>
-      <div id="ori-antes-res" style="margin-top:8px"></div>
-
-      <!-- Volumen antes -->
-      <div class="fi" style="margin-top:10px">
-        <label>Volumen de orina ANTES (ml) — opcional</label>
-        <input type="number" id="inp-vol-antes" placeholder="Ej: 200 ml" step="10" min="0">
-        <span class="hint">Si puedes medirlo con un vaso graduado o estimas visualmente</span>
-      </div>
-
-      <div style="height:1px;background:var(--border);margin:14px 0"></div>
-
-      <!-- DESPUES -->
-      <div style="font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;color:var(--accent2);margin-bottom:6px">🌇 DESPUES de entrenar</div>
-      <div class="card-desc" style="text-align:left;margin-bottom:10px">Primera orina al terminar el entrenamiento</div>
-      <div class="urine-grid" id="urine-grid-despues">
-        <div class="urine-btn" style="background:#FFFF99" onclick="selOrinaDesp(1)"><span class="urine-num">1</span></div>
-        <div class="urine-btn" style="background:#FFFF44" onclick="selOrinaDesp(2)"><span class="urine-num">2</span></div>
-        <div class="urine-btn" style="background:#FFE135" onclick="selOrinaDesp(3)"><span class="urine-num">3</span></div>
-        <div class="urine-btn" style="background:#FFCC00" onclick="selOrinaDesp(4)"><span class="urine-num">4</span></div>
-        <div class="urine-btn" style="background:#FFA500" onclick="selOrinaDesp(5)"><span class="urine-num dk">5</span></div>
-        <div class="urine-btn" style="background:#FF8C00" onclick="selOrinaDesp(6)"><span class="urine-num dk">6</span></div>
-        <div class="urine-btn" style="background:#CC6600" onclick="selOrinaDesp(7)"><span class="urine-num dk">7</span></div>
-        <div class="urine-btn" style="background:#8B4513" onclick="selOrinaDesp(8)"><span class="urine-num dk">8</span></div>
-      </div>
-      <div style="display:flex;justify-content:space-between;margin-top:3px">
-        <span style="font-size:.55rem;color:var(--accent3);font-family:'DM Mono',monospace">Bien hidratado</span>
-        <span style="font-size:.55rem;color:var(--danger);font-family:'DM Mono',monospace">Muy deshidratado</span>
-      </div>
-      <div id="ori-desp-res" style="margin-top:8px"></div>
-
-      <!-- Volumen despues -->
-      <div class="fi" style="margin-top:10px">
-        <label>Volumen de orina DESPUES (ml) — opcional</label>
-        <input type="number" id="inp-vol-desp" placeholder="Ej: 150 ml" step="10" min="0">
-        <span class="hint">Si puedes medirlo con un vaso graduado o estimas visualmente</span>
+      <div class="fi" id="vol-orina-exacto" style="display:none">
+        <label>Volumen de orina durante el entrenamiento (ml)</label>
+        <input type="number" id="inp-vol-ori-exacto" placeholder="Ej: 220 ml" step="10" min="0">
+        <span class="hint">Puedes estimarlo visualmente o medirlo con un vaso graduado</span>
       </div>
     </div>
+
+    <!-- COLOR ORINA PRE -->
+    <div class="card">
+      <div class="card-ico">🌅</div>
+      <div class="card-title">Color de orina ANTES de entrenar</div>
+      <div class="card-desc">Observa tu orina antes de comenzar — Escala de Armstrong</div>
+      <div class="urine-grid" id="urine-grid-pre">
+        <div class="urine-btn" style="background:#FFFF99" onclick="selOrinaPre(1)"><span class="urine-num">1</span></div>
+        <div class="urine-btn" style="background:#FFFF44" onclick="selOrinaPre(2)"><span class="urine-num">2</span></div>
+        <div class="urine-btn" style="background:#FFE135" onclick="selOrinaPre(3)"><span class="urine-num">3</span></div>
+        <div class="urine-btn" style="background:#FFCC00" onclick="selOrinaPre(4)"><span class="urine-num">4</span></div>
+        <div class="urine-btn" style="background:#FFA500" onclick="selOrinaPre(5)"><span class="urine-num dk">5</span></div>
+        <div class="urine-btn" style="background:#FF8C00" onclick="selOrinaPre(6)"><span class="urine-num dk">6</span></div>
+        <div class="urine-btn" style="background:#CC6600" onclick="selOrinaPre(7)"><span class="urine-num dk">7</span></div>
+        <div class="urine-btn" style="background:#8B4513" onclick="selOrinaPre(8)"><span class="urine-num dk">8</span></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:4px">
+        <span style="font-size:.55rem;color:var(--accent3);font-family:'DM Mono',monospace">Bien hidratado</span>
+        <span style="font-size:.55rem;color:var(--danger);font-family:'DM Mono',monospace">Muy deshidratado</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:3px;margin-top:3px;text-align:center;font-size:.5rem;color:var(--muted);font-family:'DM Mono',monospace">
+        <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div>
+      </div>
+      <div id="ori-pre-res" style="margin-top:10px"></div>
+    </div>
+
+    <!-- COLOR ORINA POST -->
+    <div class="card">
+      <div class="card-ico">🌇</div>
+      <div class="card-title">Color de orina DESPUÉS de entrenar</div>
+      <div class="card-desc">Observa tu primera orina al terminar — Escala de Armstrong</div>
+      <div class="urine-grid" id="urine-grid-post">
+        <div class="urine-btn" style="background:#FFFF99" onclick="selOrinaPost(1)"><span class="urine-num">1</span></div>
+        <div class="urine-btn" style="background:#FFFF44" onclick="selOrinaPost(2)"><span class="urine-num">2</span></div>
+        <div class="urine-btn" style="background:#FFE135" onclick="selOrinaPost(3)"><span class="urine-num">3</span></div>
+        <div class="urine-btn" style="background:#FFCC00" onclick="selOrinaPost(4)"><span class="urine-num">4</span></div>
+        <div class="urine-btn" style="background:#FFA500" onclick="selOrinaPost(5)"><span class="urine-num dk">5</span></div>
+        <div class="urine-btn" style="background:#FF8C00" onclick="selOrinaPost(6)"><span class="urine-num dk">6</span></div>
+        <div class="urine-btn" style="background:#CC6600" onclick="selOrinaPost(7)"><span class="urine-num dk">7</span></div>
+        <div class="urine-btn" style="background:#8B4513" onclick="selOrinaPost(8)"><span class="urine-num dk">8</span></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:4px">
+        <span style="font-size:.55rem;color:var(--accent3);font-family:'DM Mono',monospace">Bien hidratado</span>
+        <span style="font-size:.55rem;color:var(--danger);font-family:'DM Mono',monospace">Muy deshidratado</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:3px;margin-top:3px;text-align:center;font-size:.5rem;color:var(--muted);font-family:'DM Mono',monospace">
+        <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div>
+      </div>
+      <div id="ori-post-res" style="margin-top:10px"></div>
+      <div id="ori-comparacion" style="margin-top:6px"></div>
+    </div>
+
+    <!-- BORG -->
     <div class="card">
       <div class="card-ico">💪</div>
-      <div class="card-title">Como fue tu esfuerzo?</div>
-      <div class="card-desc">Escala de Borg — como te sentiste durante el entreno</div>
+      <div class="card-title">¿Cómo fue tu esfuerzo?</div>
+      <div class="card-desc">Escala de Borg — cómo te sentiste durante el entrenamiento</div>
       <div class="borg-wrap">
         <div class="borg-btn" onclick="selBorg(6,'g')"><b>6</b>Muy suave</div>
         <div class="borg-btn" onclick="selBorg(9,'g')"><b>9</b>Suave</div>
@@ -336,10 +353,11 @@ canvas{width:100%!important;border-radius:6px}
         <div class="borg-btn" onclick="selBorg(15,'w')"><b>15</b>Duro</div>
         <div class="borg-btn" onclick="selBorg(17,'d')"><b>17</b>Muy duro</div>
         <div class="borg-btn" onclick="selBorg(19,'d')"><b>19</b>Casi max</div>
-        <div class="borg-btn" onclick="selBorg(20,'d')"><b>20</b>Maximo</div>
+        <div class="borg-btn" onclick="selBorg(20,'d')"><b>20</b>Máximo</div>
       </div>
       <div id="borg-res"></div>
     </div>
+
     <button class="btn" onclick="calcular()">Ver mis resultados →</button>
     <button class="btn secondary" style="margin-top:6px" onclick="goSub(2)">← Volver</button>
   </div>
@@ -404,7 +422,7 @@ canvas{width:100%!important;border-radius:6px}
 
 <script>
 // ── STATE ──
-var CUR={nombre:'',edad:null,sexo:'',deporte:'',ambiente:'',pre:null,post:null,liq:0,ori:0,tmin:null,fecha:'',hora:'',temp:null,hum:null,lugar:'',orinaAntes:null,orinaDesp:null,volAntes:null,volDesp:null,borg:null,borgCls:null};
+var CUR={nombre:'',edad:null,sexo:'',deporte:'',ambiente:'',pre:null,post:null,liq:0,ori:0,tmin:null,fecha:'',hora:'',temp:null,hum:null,lugar:'',orinaPre:null,orinaPost:null,volOrinaDur:null,borg:null,borgCls:null};
 var ORINA_DATA=[
   {n:1,lbl:'Casi transparente',est:'Hiperhidratado',cls:'i',em:'🔵',rc:'Estas consumiendo demasiada agua. No es necesario tomar mas por ahora.'},
   {n:2,lbl:'Amarillo muy palido',est:'Excelente hidratacion',cls:'g',em:'✅',rc:'Perfecto. Estas muy bien hidratado/a. Mantén este habito.'},
@@ -481,21 +499,30 @@ function sub3(){
   goSub(3);
 }
 
-function selOrinaAntes(n){
-  var btns=document.querySelectorAll('#sec-eval .sub.on .urine-grid:first-of-type .urine-btn, #sub3 .card:first-of-type .urine-btn');
-  // Select only antes buttons (first grid)
-  var allGrids=document.querySelectorAll('#sub3 .urine-grid');
-  if(allGrids[0]) allGrids[0].querySelectorAll('.urine-btn').forEach(function(e,i){e.classList.toggle('on',i===n-1)});
-  var d=ORINA_DATA[n-1]; CUR.orinaAntes=d;
-  document.getElementById('ori-antes-res').innerHTML='<div class="al '+d.cls+'"><strong>'+d.em+' Antes: '+d.est+'</strong>'+d.rc+'</div>';
+function toggleVolOrina(){
+  var sel=document.getElementById('inp-ori-select').value;
+  document.getElementById('vol-orina-exacto').style.display=sel==='custom'?'flex':'none';
 }
-function selOrinaDesp(n){
-  var allGrids=document.querySelectorAll('#sub3 .urine-grid');
-  if(allGrids[1]) allGrids[1].querySelectorAll('.urine-btn').forEach(function(e,i){e.classList.toggle('on',i===n-1)});
-  var d=ORINA_DATA[n-1]; CUR.orinaDesp=d;
-  document.getElementById('ori-desp-res').innerHTML='<div class="al '+d.cls+'"><strong>'+d.em+' Despues: '+d.est+'</strong>'+d.rc+'</div>';
+function selOrinaPre(n){
+  document.querySelectorAll('#urine-grid-pre .urine-btn').forEach(function(e,i){e.classList.toggle('on',i===n-1)});
+  var d=ORINA_DATA[n-1]; CUR.orinaPre=d;
+  document.getElementById('ori-pre-res').innerHTML='<div class="al '+d.cls+'"><strong>'+d.em+' ANTES: '+d.est+'</strong>'+d.rc+'</div>';
 }
-
+function selOrinaPost(n){
+  document.querySelectorAll('#urine-grid-post .urine-btn').forEach(function(e,i){e.classList.toggle('on',i===n-1)});
+  var d=ORINA_DATA[n-1]; CUR.orinaPost=d;
+  document.getElementById('ori-post-res').innerHTML='<div class="al '+d.cls+'"><strong>'+d.em+' DESPUÉS: '+d.est+'</strong>'+d.rc+'</div>';
+  // Comparacion automatica si ya hay pre
+  if(CUR.orinaPre){
+    var diff=n-CUR.orinaPre.n;
+    var cls=diff<=0?'g':diff<=2?'w':'d';
+    var msg=diff<0?'✅ Tu hidratación mejoró durante el entrenamiento. ¡Excelente estrategia!':
+            diff===0?'✅ Mantuviste el mismo nivel de hidratación durante el ejercicio.':
+            diff<=2?'⚠️ Tu orina se concentró levemente. Bebe más agua en el post-entrenamiento.':
+            '🔴 Tu orina se concentró bastante. Prioriza la rehidratación ahora.';
+    document.getElementById('ori-comparacion').innerHTML='<div class="al '+cls+'" style="margin-top:6px"><strong>📊 Comparación PRE vs POST</strong>'+msg+'</div>';
+  }
+}
 function selBorg(n,cls){
   document.querySelectorAll('.borg-btn').forEach(function(b){b.className='borg-btn'});
   event.target.closest('.borg-btn').classList.add('on',cls);
@@ -506,7 +533,7 @@ function selBorg(n,cls){
 
 // ── CALCULOS ──
 function calcular(){
-  if(!CUR.orinaAntes){alert('Selecciona el color de tu orina ANTES de entrenar.');return}
+  if(!CUR.orinaPre){alert('Selecciona el color de tu orina ANTES de entrenar.');return}
   if(!CUR.borg){alert('Selecciona como fue tu esfuerzo.');return}
   var h=CUR.tmin/60;
   var pm=CUR.pre-CUR.post;
@@ -532,14 +559,22 @@ function calcular(){
   var dcCls=pd<1?'g':pd<2?'w':'d';
   var dcLbl=pd<1?'Minima':pd<2?'Leve':pd<3?'Moderada':'Severa';
   // Guardar en historial
-  CUR.volAntes=parseFloat(document.getElementById('inp-vol-antes').value)||null;
-  CUR.volDesp=parseFloat(document.getElementById('inp-vol-desp').value)||null;
+  // Capturar orina durante
+  var oriSel=document.getElementById('inp-ori-select').value;
+  var volOri=0;
+  if(oriSel==='custom'){
+    volOri=(parseFloat(document.getElementById('inp-vol-ori-exacto').value)||0)/1000;
+  } else {
+    volOri=parseFloat(oriSel)||0;
+  }
+  CUR.ori=volOri;
+  CUR.volOrinaDur=volOri>0?Math.round(volOri*1000):null;
   var ev={nombre:CUR.nombre,edad:CUR.edad,sexo:CUR.sexo,deporte:CUR.deporte,ambiente:CUR.ambiente,
     pre:CUR.pre,post:CUR.post,liq:CUR.liq,ori:CUR.ori,tmin:CUR.tmin,
     fechaSesion:CUR.fecha,horaSesion:CUR.hora,temp:CUR.temp,hum:CUR.hum,lugar:CUR.lugar,
-    volAntes:CUR.volAntes,volDesp:CUR.volDesp,
-    orinaAntes:{n:CUR.orinaAntes.n,lbl:CUR.orinaAntes.lbl,cls:CUR.orinaAntes.cls,em:CUR.orinaAntes.em},
-    orinaDesp:CUR.orinaDesp?{n:CUR.orinaDesp.n,lbl:CUR.orinaDesp.lbl,cls:CUR.orinaDesp.cls,em:CUR.orinaDesp.em}:null,
+    volOrinaDur:CUR.volOrinaDur,
+    orinaPost:CUR.orinaPost?{n:CUR.orinaPost.n,lbl:CUR.orinaPost.lbl,cls:CUR.orinaPost.cls,em:CUR.orinaPost.em}:null,
+    orinaPre:{n:CUR.orinaPre.n,lbl:CUR.orinaPre.lbl,cls:CUR.orinaPre.cls,em:CUR.orinaPre.em},
     borg:CUR.borg,borgCls:CUR.borgCls,
     pm:pm,ps:ps,pd:pd,tLh:tLh,tMm:tMm,ah:ahAdj,rd:rdAdj,rp:rp,
     dcCls:dcCls,dcLbl:dcLbl,
@@ -572,22 +607,27 @@ function renderResultados(ev,containerId){
     w:'<strong>⚠️ Deshidratacion leve ('+pd.toFixed(1)+'%)</strong>Perdiste entre 1-2% de tu peso. Necesitas beber mas durante el entreno.',
     d:'<strong>🔴 Deshidratacion significativa ('+pd.toFixed(1)+'%)</strong>Mas del 2% de perdida afecta seriamente tu rendimiento y salud.'};
   html+='<div class="al '+dcCls+'">'+(am[dcCls])+'</div>';
-  // Orina antes
-  if(ev.orinaAntes){
-    html+='<div class="al '+ev.orinaAntes.cls+'"><strong>'+ev.orinaAntes.em+' Orina ANTES: '+ev.orinaAntes.lbl+'</strong>'+ORINA_DATA[ev.orinaAntes.n-1].rc+'</div>';
-    if(ev.volAntes) html+='<div class="al i" style="padding:8px 14px;font-size:.72rem">💧 Volumen orina antes: <b>'+ev.volAntes+' ml</b></div>';
+  // Orina PRE
+  if(ev.orinaPre){
+    html+='<div class="al '+ev.orinaPre.cls+'"><strong>'+ev.orinaPre.em+' Orina ANTES de entrenar: '+ev.orinaPre.lbl+'</strong>'+ORINA_DATA[ev.orinaPre.n-1].rc+'</div>';
   }
-  // Orina despues
-  if(ev.orinaDesp){
-    html+='<div class="al '+ev.orinaDesp.cls+'"><strong>'+ev.orinaDesp.em+' Orina DESPUES: '+ev.orinaDesp.lbl+'</strong>'+ORINA_DATA[ev.orinaDesp.n-1].rc+'</div>';
-    if(ev.volDesp) html+='<div class="al i" style="padding:8px 14px;font-size:.72rem">💧 Volumen orina despues: <b>'+ev.volDesp+' ml</b></div>';
-    // Comparacion antes vs despues
-    if(ev.orinaAntes&&ev.orinaDesp){
-      var diff=ev.orinaDesp.n-ev.orinaAntes.n;
+  // Orina POST
+  if(ev.orinaPost){
+    html+='<div class="al '+ev.orinaPost.cls+'"><strong>'+ev.orinaPost.em+' Orina DESPUÉS de entrenar: '+ev.orinaPost.lbl+'</strong>'+ORINA_DATA[ev.orinaPost.n-1].rc+'</div>';
+    // Comparacion
+    if(ev.orinaPre){
+      var diff=ev.orinaPost.n-ev.orinaPre.n;
       var cmpCls=diff<=0?'g':diff<=2?'w':'d';
-      var cmpMsg=diff<0?'Tu hidratacion mejoro durante el entrenamiento. Excelente!':diff===0?'Mantuviste el mismo nivel de hidratacion durante el ejercicio.':diff<=2?'Tu orina se concentro un poco. Bebe mas agua en el post-entrenamiento.':'Tu orina se concentro bastante. Prioriza la rehidratacion ahora.';
-      html+='<div class="al '+cmpCls+'"><strong>📊 Comparacion antes vs despues</strong>'+cmpMsg+'</div>';
+      var cmpMsg=diff<0?'Tu hidratacion mejoró durante el entrenamiento. Excelente estrategia de hidratacion.':
+                 diff===0?'Mantuviste el mismo nivel de hidratacion. Buena constancia.':
+                 diff<=2?'Tu orina se concentró levemente. Aumenta la ingesta durante la sesion.':
+                 'Tu orina se concentró bastante. Revisa tu estrategia de hidratacion durante el entrenamiento.';
+      html+='<div class="al '+cmpCls+'"><strong>📊 Comparación PRE vs POST entrenamiento</strong>'+cmpMsg+' (Armstrong et al., 1994)</div>';
     }
+  }
+  // Volumen orina durante
+  if(ev.volOrinaDur){
+    html+='<div class="al i" style="padding:9px 14px;font-size:.74rem">🚽 Orina durante el entrenamiento: <b>'+ev.volOrinaDur+' ml</b> — descontado del calculo de perdida de sudor.</div>';
   }
   // Plan
   html+='<div class="plan-box">'+
@@ -602,11 +642,11 @@ function renderResultados(ev,containerId){
   if(ev.orina.n>=5)antes='Tu orina indica deshidratacion. Bebe al menos 500ml antes de empezar.';
   if(ev.orina.n>=7)antes='Deshidratacion importante. Considera reducir la intensidad hasta rehidratarte.';
   html+='<div class="rec-item"><span class="rec-ico">🌅</span><span class="rec-txt"><b>Antes:</b> '+antes+'</span></div>';
-  var dur='Bebe <b>'+ev.ah+' ml/hora</b> ('+(ev.ah/4)+' ml cada 15 min). No esperes a tener sed.';
-  if(ev.borg>=17)dur='Con intensidad alta, bebe <b>'+ev.ah+' ml/hora</b> y considera bebida isotonica si duras mas de 60 min.';
-  if(ev.ambiente&&ev.ambiente.indexOf('sol')>-1)dur='Con calor y sol, aumenta a <b>'+ev.ah+' ml/hora</b> y prioriza bebida con sodio.';
+  var dur='Bebe <b>'+ev.ah+' ml/hora</b> ('+(ev.rd)+' ml cada 15 min). No esperes a tener sed — cuando aparece la sed ya existe un 1-2% de deshidratacion (Cheuvront & Kenefick, 2014).';
+  if(ev.borg>=17)dur='Con intensidad alta (Borg '+ev.borg+'), tu tasa de sudoracion aumenta. Bebe <b>'+ev.ah+' ml/hora</b> y considera bebida isotonica si la sesion supera 60 min (Thomas et al., 2016).';
+  if(ev.ambiente&&ev.ambiente.indexOf('sol')>-1)dur='Con calor y sol directo la sudoracion puede aumentar hasta un 15% mas. Bebe <b>'+ev.ah+' ml/hora</b> y prioriza bebida con sodio (Maughan & Shirreffs, 2008).';
   html+='<div class="rec-item"><span class="rec-ico">🏃</span><span class="rec-txt"><b>Durante:</b> '+dur+'</span></div>';
-  html+='<div class="rec-item"><span class="rec-ico">🌊</span><span class="rec-txt"><b>Despues:</b> Repone <b>'+ev.rp.toFixed(2)+' L</b> en 2 horas. Equivale a '+Math.ceil(ev.rp/0.25)+' vasos.</span></div>';
+  html+='<div class="rec-item"><span class="rec-ico">🌊</span><span class="rec-txt"><b>Despues:</b> Repone <b>'+ev.rp.toFixed(2)+' L</b> en las proximas 2 horas. Equivale a '+Math.ceil(ev.rp/0.25)+' vasos. La ACSM recomienda reponer el 150% de la masa perdida para asegurar rehidratacion completa (Sawka et al., 2007).</span></div>';
   html+='<div class="rec-item"><span class="rec-ico">🍽️</span><span class="rec-txt"><b>Comida post-entreno:</b> Incluye sodio — sopas caseras con sal, pan con palta y sal extra, o agrega sal a tus preparaciones.</span></div>';
   if(ev.borg>=15)html+='<div class="rec-item"><span class="rec-ico">⚡</span><span class="rec-txt"><b>Alta intensidad (Borg '+ev.borg+'):</b> Considera bebida isotonica si superas 60 min a esta intensidad.</span></div>';
   html+='</div>';
@@ -620,11 +660,22 @@ function renderResultados(ev,containerId){
     if(ev.temp!==null&&ev.temp!==undefined)condHtml+='<div class="stat-row"><span class="stat-key">Temperatura</span><span class="stat-val">'+ev.temp+' °C</span></div>';
     if(ev.hum!==null&&ev.hum!==undefined)condHtml+='<div class="stat-row"><span class="stat-key">Humedad relativa</span><span class="stat-val">'+ev.hum+' %</span></div>';
     if(ev.ambiente)condHtml+='<div class="stat-row"><span class="stat-key">Ambiente</span><span class="stat-val">'+ev.ambiente+'</span></div>';
-    if(ev.volAntes)condHtml+='<div class="stat-row"><span class="stat-key">Vol. orina antes</span><span class="stat-val">'+ev.volAntes+' ml</span></div>';
-    if(ev.volDesp)condHtml+='<div class="stat-row"><span class="stat-key">Vol. orina despues</span><span class="stat-val">'+ev.volDesp+' ml</span></div>';
+    if(ev.orinaPre)condHtml+='<div class="stat-row"><span class="stat-key">Orina PRE</span><span class="stat-val">'+ev.orinaPre.n+'/8 — '+ev.orinaPre.lbl+'</span></div>';
+    if(ev.orinaPost)condHtml+='<div class="stat-row"><span class="stat-key">Orina POST</span><span class="stat-val">'+ev.orinaPost.n+'/8 — '+ev.orinaPost.lbl+'</span></div>';
+    if(ev.volOrinaDur)condHtml+='<div class="stat-row"><span class="stat-key">Orina durante</span><span class="stat-val">'+ev.volOrinaDur+' ml</span></div>';
     condHtml+='</div>';
     html+=condHtml;
   }
+  // Referencias actualizadas
+  html+='<div style="background:rgba(0,212,255,.03);border:1px solid rgba(0,212,255,.1);border-radius:10px;padding:11px 13px;margin-top:12px;font-size:.58rem;color:var(--muted);line-height:1.8;font-family:\'DM Mono\',monospace"><b style="color:var(--accent2);display:block;margin-bottom:5px;font-size:.6rem;text-transform:uppercase;letter-spacing:.06em">Referencias bibliograficas</b>'+
+    '1. Sawka MN et al. (2007). ACSM position stand: Exercise and fluid replacement. Med Sci Sports Exerc, 39(2), 377-390.<br>'+
+    '2. Armstrong LE et al. (1994). Urinary indices of hydration status. Int J Sport Nutr, 4(3), 265-279.<br>'+
+    '3. Cheuvront SN & Kenefick RW (2014). Dehydration: physiology, assessment, and performance effects. Compr Physiol, 4(1), 257-285.<br>'+
+    '4. Maughan RJ & Shirreffs SM (2008). Development of individual hydration strategies for athletes. Int J Sport Nutr Exerc Metab, 18(5), 457-472.<br>'+
+    '5. Shirreffs SM & Sawka MN (2011). Fluid and electrolyte needs for training, competition, and recovery. J Sports Sci, 29(S1), S39-S46.<br>'+
+    '6. Thomas DT et al. (2016). Academy of Nutrition and Dietetics position paper: Nutrition and Athletic Performance. J Acad Nutr Diet, 116(3), 501-528.<br>'+
+    '7. Borg G (1982). Psychophysical bases of perceived exertion. Med Sci Sports Exerc, 14(5), 377-381.'+
+    '</div>';
   var hoy=new Date(ev.fecha).toLocaleDateString('es-CL',{year:'numeric',month:'long',day:'numeric'});
   html+='<div class="firma"><div style="font-size:.6rem;color:var(--muted);font-family:\'DM Mono\',monospace">'+hoy+'</div><div class="firma-line"></div><div class="firma-n">Daniela Reyes Olavarria</div><div class="firma-t">Nutricionista Deportiva · HydroCheck</div></div>';
   document.getElementById(containerId).innerHTML=html;
@@ -661,10 +712,10 @@ function renderHistorial(){
       '</div>'+
       '<div class="hist-pills">'+
       '<span class="pill i">'+ev.tmin+' min</span>'+
-      '<span class="pill '+(ev.orinaAntes?ev.orinaAntes.cls:ev.orina?ev.orina.cls:'i')+'">Orina '+(ev.orinaAntes?ev.orinaAntes.n:ev.orina?ev.orina.n:'?')+'/8 pre</span>'+
-      (ev.orinaDesp?'<span class="pill '+ev.orinaDesp.cls+'">'+ev.orinaDesp.n+'/8 post</span>':'')+
+      '<span class="pill '+(ev.orinaPre?ev.orinaPre.cls:'i')+'">Pre '+(ev.orinaPre?ev.orinaPre.n:'?')+'/8</span>'+
+      (ev.orinaPost?'<span class="pill '+ev.orinaPost.cls+'">Post '+ev.orinaPost.n+'/8</span>':'')+
+      (ev.volOrinaDur?'<span class="pill i">'+ev.volOrinaDur+' ml</span>':'')+
       '<span class="pill '+ev.borgCls+'">Borg '+ev.borg+'</span>'+
-      (ev.ambiente?'<span class="pill i">'+ev.ambiente.split(' ')[0]+'</span>':'')+
       '</div>'+
       '<div class="hist-stats">'+
       '<div class="hist-stat"><div class="hist-stat-val" style="color:var(--'+(ev.dcCls==='g'?'accent3':ev.dcCls==='w'?'warn':'danger')+')">'+ev.pd.toFixed(1)+'%</div><div class="hist-stat-lbl">Deshidrat.</div></div>'+
@@ -828,14 +879,18 @@ function renderPerfil(){
 // ── RESET ──
 function nuevaEval(){
   CUR={nombre:'',edad:null,sexo:'',deporte:'',ambiente:'',pre:null,post:null,liq:0,ori:0,tmin:null,orina:null,borg:null,borgCls:null};
-  ['inp-nombre','inp-edad','inp-pre','inp-post','inp-tmin','inp-fecha','inp-hora','inp-temp','inp-hum','inp-lugar','inp-vol-antes','inp-vol-desp'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
+  ['inp-nombre','inp-edad','inp-pre','inp-post','inp-tmin','inp-fecha','inp-hora','inp-temp','inp-hum','inp-lugar','inp-vol-ori-exacto'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
+  var oriSel=document.getElementById('inp-ori-select');if(oriSel)oriSel.value='0';
+  document.getElementById('vol-orina-exacto').style.display='none';
   document.getElementById('inp-liq').value='0';
   document.getElementById('inp-sexo').value='';
   document.getElementById('inp-deporte').value='';
   document.getElementById('inp-amb').value='';
   document.getElementById('inp-ori').value='0';
-  var oriAntes=document.getElementById('ori-antes-res'); if(oriAntes)oriAntes.innerHTML='';
-  var oriDesp=document.getElementById('ori-desp-res'); if(oriDesp)oriDesp.innerHTML='';
+  ['ori-pre-res','ori-post-res','ori-comparacion','borg-res'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=''});
+  document.querySelectorAll('#urine-grid-pre .urine-btn, #urine-grid-post .urine-btn').forEach(function(e){e.classList.remove('on')});
+  var oriSel=document.getElementById('inp-ori-select');if(oriSel)oriSel.value='0';
+  document.getElementById('vol-orina-exacto').style.display='none';
   document.getElementById('borg-res').innerHTML='';
   document.querySelectorAll('.urine-btn').forEach(function(e){e.classList.remove('on')});
   document.querySelectorAll('.borg-btn').forEach(function(b){b.className='borg-btn'});
