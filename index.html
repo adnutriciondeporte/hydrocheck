@@ -192,11 +192,11 @@ canvas{width:100%!important;border-radius:6px}
   <div class="sub on" id="sub1" style="padding-top:14px">
     <div class="card">
       <div class="card-ico">👤</div>
-      <div class="card-title">Cuentanos sobre ti</div>
+      <div class="card-title">Cuentaños sobre ti</div>
       <div class="card-desc">Estos datos personalizan tu plan de hidratacion</div>
       <div class="fi"><label>Tu nombre</label><input type="text" id="inp-nombre" placeholder="Como te llamas?"></div>
       <div class="fi-row">
-        <div class="fi"><label>Edad</label><input type="number" id="inp-edad" placeholder="anos"></div>
+        <div class="fi"><label>Edad</label><input type="number" id="inp-edad" placeholder="años"></div>
         <div class="fi"><label>Sexo</label><select id="inp-sexo"><option value="">--</option><option>Femenino</option><option>Masculino</option></select></div>
       </div>
       <div class="fi"><label>Deporte / Actividad</label>
@@ -212,9 +212,11 @@ canvas{width:100%!important;border-radius:6px}
         <select id="inp-amb">
           <option value="">Selecciona</option>
           <option>Indoor (sala / gimnasio)</option>
-          <option>Exterior con sombra</option>
+          <option>Exterior nublado</option>
+          <option>Exterior despejado sin sol directo</option>
           <option>Exterior con sol directo</option>
-          <option>Piscina</option>
+          <option>Exterior con viento frio</option>
+          <option>Piscina / Natacion</option>
         </select>
       </div>
     </div>
@@ -468,7 +470,14 @@ function calcular(){
   var ah=tLh*1000;
   // Ajuste intensidad y ambiente
   var fi=CUR.borg>=17?1.15:CUR.borg>=13?1.05:1.0;
-  var fa=(CUR.ambiente&&CUR.ambiente.indexOf('sol')>-1)?1.15:(CUR.ambiente&&CUR.ambiente.indexOf('sombra')>-1)?1.05:1.0;
+  var fa=1.0;
+  if(CUR.ambiente){
+    if(CUR.ambiente.indexOf('sol directo')>-1) fa=1.15;
+    else if(CUR.ambiente.indexOf('despejado')>-1) fa=1.08;
+    else if(CUR.ambiente.indexOf('nublado')>-1) fa=1.03;
+    else if(CUR.ambiente.indexOf('viento')>-1) fa=0.95;
+    else if(CUR.ambiente.indexOf('Piscina')>-1) fa=0.9;
+  }
   var ahAdj=Math.round(ah*fi*fa/50)*50;
   var rdAdj=Math.round(ahAdj/4);
   var rp=pm*1.5;
@@ -519,7 +528,7 @@ function renderResultados(ev,containerId){
     '<div class="plan-title">📋 Tu plan para sesiones como esta</div>'+
     '<div class="plan-item"><span class="plan-em">💧</span><div><div class="plan-k">Agua por hora</div><div class="plan-v">'+ev.ah+' ml/hora</div><div class="plan-s">'+ev.rd+' ml cada 15 minutos</div></div></div>'+
     '<div class="plan-item"><span class="plan-em">🌊</span><div><div class="plan-k">Reponer despues</div><div class="plan-v w">'+ev.rp.toFixed(2)+' L</div><div class="plan-s">En las proximas 2 horas (ACSM)</div></div></div>'+
-    '<div class="plan-item"><span class="plan-em">🧂</span><div><div class="plan-k">Sodio post-ejercicio</div><div class="plan-v g">Incluir en comida</div><div class="plan-s">Sopas, queso, frutos salados</div></div></div>'+
+    '<div class="plan-item"><span class="plan-em">🧂</span><div><div class="plan-k">Sodio post-ejercicio</div><div class="plan-v g">Incluir en comida</div><div class="plan-s">Sopas caseras, pan con palta y sal</div></div></div>'+
     '</div>';
   // Recomendaciones
   html+='<div class="card"><div class="ct">Recomendaciones</div>';
@@ -532,7 +541,7 @@ function renderResultados(ev,containerId){
   if(ev.ambiente&&ev.ambiente.indexOf('sol')>-1)dur='Con calor y sol, aumenta a <b>'+ev.ah+' ml/hora</b> y prioriza bebida con sodio.';
   html+='<div class="rec-item"><span class="rec-ico">🏃</span><span class="rec-txt"><b>Durante:</b> '+dur+'</span></div>';
   html+='<div class="rec-item"><span class="rec-ico">🌊</span><span class="rec-txt"><b>Despues:</b> Repone <b>'+ev.rp.toFixed(2)+' L</b> en 2 horas. Equivale a '+Math.ceil(ev.rp/0.25)+' vasos.</span></div>';
-  html+='<div class="rec-item"><span class="rec-ico">🍽️</span><span class="rec-txt"><b>Comida post-entreno:</b> Incluye sodio — sopas, queso, aceitunas, pan con palta.</span></div>';
+  html+='<div class="rec-item"><span class="rec-ico">🍽️</span><span class="rec-txt"><b>Comida post-entreno:</b> Incluye sodio — sopas caseras con sal, pan con palta y sal extra, o agrega sal a tus preparaciones.</span></div>';
   if(ev.borg>=15)html+='<div class="rec-item"><span class="rec-ico">⚡</span><span class="rec-txt"><b>Alta intensidad (Borg '+ev.borg+'):</b> Considera bebida isotonica si superas 60 min a esta intensidad.</span></div>';
   html+='</div>';
   // Firma
@@ -715,7 +724,7 @@ function renderPerfil(){
   var html='<div class="card">'+
     '<div class="profile-avatar">'+inicial+'</div>'+
     '<div class="profile-name">'+nombre+'</div>'+
-    '<div class="profile-sport">'+(perfil&&perfil.deporte?perfil.deporte:'')+(perfil&&perfil.edad?' · '+perfil.edad+' anos':'')+'</div>'+
+    '<div class="profile-sport">'+(perfil&&perfil.deporte?perfil.deporte:'')+(perfil&&perfil.edad?' · '+perfil.edad+' años':'')+'</div>'+
     '</div>';
   html+='<div class="card"><div class="ct">Mis estadisticas</div>'+
     '<div class="stat-row"><span class="stat-key">Total de evaluaciones</span><span class="stat-val">'+totalEvals+'</span></div>'+
